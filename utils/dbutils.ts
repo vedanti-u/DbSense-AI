@@ -22,6 +22,16 @@ function extractTableName(sqlQuery: string): string | null {
     return null;
 }
 
+function tableMapToStringConvertor(jsonObj: { [key: string]: string }): string {
+    let resultString = "";
+    for (const key in jsonObj) {
+        if (Object.prototype.hasOwnProperty.call(jsonObj, key)) {
+            const value = jsonObj[key];
+            resultString += value + "\n\n"; // Adding value followed by a newline character
+        }
+    }
+    return resultString;
+}
 // Example usage:
 const sqlQuery = "CREATE TABLE users (id INT, name VARCHAR(255))";
 
@@ -31,3 +41,5 @@ createTable("CREATE TABLE products ( product_id INT PRIMARY KEY, name VARCHAR(25
 createTable("CREATE TABLE orders ( order_id INT PRIMARY KEY, customer_id INT, order_date DATE, total_amount DECIMAL(10, 2) );")
 //createTable("Create a table student with attribute name, rollno, marks")
 createTable("CREATE TABLE users ( id INT PRIMARY KEY, username VARCHAR(100), email VARCHAR(100) );")
+
+console.log(tableMapToStringConvertor(tables))
