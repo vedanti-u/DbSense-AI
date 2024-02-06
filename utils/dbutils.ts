@@ -1,3 +1,12 @@
+import path from 'path';
+import * as fs from 'fs/promises';
+import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
+import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter';
+import { OpenAI } from 'langchain/llms/openai';
+import { HNSWLib } from 'langchain/vectorstores/hnswlib';
+import dotenv from 'dotenv';
+dotenv.config();
+
 const tables: { [key: string]: string } = {
 
 };
@@ -32,6 +41,32 @@ function tableMapToStringConvertor(jsonObj: { [key: string]: string }): string {
     }
     return resultString;
 }
+
+
+
+async function createVectorEmbeddings(tableString: string){
+    //const jsonDirectory = path.join(process.cwd(), 'data/sample');
+    const model = new OpenAI({});
+    const VECTOR_STORE_PATH = './docs/data.index';
+    let vectorStore;
+    //const agileJson = await fs.readFile(jsonDirectory + '/data.json', 'utf-8');
+    const textSpiltter = new RecursiveCharacterTextSplitter({
+        chunkSize: 1000,
+    })
+    const docs = await textSpiltter.createDocuments([tableString]);
+    vectorStore = await HNSWLib.fromDocuments(docs, new OpenAIEmbeddings());
+    await vectorStore.save(VECTOR_STORE_PATH);
+    console.log("succesfully create vector store ");
+}
+
+// async function checkFileExists(filePath){
+//     try{
+//         await fs.acess(filePath);
+//         return true;
+//     } catch (error) {
+//         retu
+//     }
+// }
 // Example usage:
 const sqlQuery = "CREATE TABLE users (id INT, name VARCHAR(255))";
 
@@ -43,3 +78,7 @@ createTable("CREATE TABLE orders ( order_id INT PRIMARY KEY, customer_id INT, or
 createTable("CREATE TABLE users ( id INT PRIMARY KEY, username VARCHAR(100), email VARCHAR(100) );")
 
 console.log(tableMapToStringConvertor(tables))
+
+const tableString = tableMapToStringConvertor(tables);
+
+ createVectorEmbeddings(tableString);
