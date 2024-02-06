@@ -12,7 +12,7 @@ function createTable(sqlQuery : string) : void {
     }
     console.log(tables);
 }
-
+  
 function extractTableName(sqlQuery: string): string | null {
     const regex = /CREATE\s+TABLE\s+(\S+)/i;
     const match = sqlQuery.match(regex);
