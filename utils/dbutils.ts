@@ -12,8 +12,10 @@ const tables: { [key: string]: string } = {
 
 };
 
-let vectorStore : any;
+let vectorStore : HNSWLib;
 const model = new OpenAI({});
+const VECTOR_STORE_PATH = './docs/data.index';
+const openAIEmbeddings = new OpenAIEmbeddings();
 
 function createTable(sqlQuery : string) : void {
     const tableName = extractTableName(sqlQuery);
@@ -49,15 +51,11 @@ function tableMapToStringConvertor(jsonObj: { [key: string]: string }): string {
 
 
 async function createVectorEmbeddings(tableString: string){
-    //const jsonDirectory = path.join(process.cwd(), 'data/sample');
-    //const model = new OpenAI({});
-    const VECTOR_STORE_PATH = './docs/data.index';
-    //const agileJson = await fs.readFile(jsonDirectory + '/data.json', 'utf-8');
     const fileExists : boolean = await checkFileExists(VECTOR_STORE_PATH);
 
     if(fileExists){
         console.log("Vector Store Already Exist");
-        vectorStore = await HNSWLib.load(VECTOR_STORE_PATH, new OpenAIEmbeddings());   
+        vectorStore = await HNSWLib.load(VECTOR_STORE_PATH,openAIEmbeddings);   
         console.log("this is vectorStore", vectorStore);
     } else {
         console.log("Creating Vector Store");
@@ -66,7 +64,7 @@ async function createVectorEmbeddings(tableString: string){
             chunkSize: 1000,
         })
         const docs = await textSpiltter.createDocuments([tableString]);
-        vectorStore = await HNSWLib.fromDocuments(docs, new OpenAIEmbeddings());
+        vectorStore = await HNSWLib.fromDocuments(docs, openAIEmbeddings);
         await vectorStore.save(VECTOR_STORE_PATH);
         console.log("this is vectorStore", vectorStore);
         console.log("succesfully create vector store ");
@@ -83,35 +81,39 @@ async function checkFileExists(filePath : string) : Promise<boolean>{
 }
 
 async function createSqlQueryFromQuestion(question : string){
-    //const model = new OpenAI({});
     console.log("createSqlQueryFromQuestion");
-    //const VECTOR_STORE_PATH = './docs/data.index';
-    //var vectorStore = await HNSWLib.load(VECTOR_STORE_PATH, new OpenAIEmbeddings());
-    const chain = RetrievalQAChain.fromLLM(model, vectorStore.asRetriever());
-    const res = await chain.call({
-        query: `Answer this question with sql query according to schema provided : ${question}`,
-    });
-    console.log("response ->",res);
-    return {
+    const fileExists : boolean = await checkFileExists(VECTOR_STORE_PATH);
+
+    if(fileExists){
+        console.log("Loading Vector Store");
+        vectorStore = await HNSWLib.load(VECTOR_STORE_PATH,openAIEmbeddings);   
+        const chain = RetrievalQAChain.fromLLM(model, vectorStore.asRetriever());
+         const prompt = `Given the SQL schema provided, answer the question: "${question}". Provide the SQL query only.`;
+        
+        const res = await chain.call({
+            query: prompt,
+        });
+        
+         console.log("response ->",res);
+        return {
         res,
-    };
+        };
+    }
 }
 
+//const sqlQuery = "CREATE TABLE users (id INT, name VARCHAR(255))";
 
 
-const sqlQuery = "CREATE TABLE users (id INT, name VARCHAR(255))";
-
-
-createTable("CREATE TABLE users ( id INT PRIMARY KEY, username VARCHAR(50), email VARCHAR(100) );")
-createTable("CREATE TABLE products ( product_id INT PRIMARY KEY, name VARCHAR(255), price DECIMAL(10, 2) );")
-createTable("CREATE TABLE orders ( order_id INT PRIMARY KEY, customer_id INT, order_date DATE, total_amount DECIMAL(10, 2) );")
+//createTable("CREATE TABLE users ( id INT PRIMARY KEY, username VARCHAR(50), email VARCHAR(100) );")
+//createTable("CREATE TABLE products ( product_id INT PRIMARY KEY, name VARCHAR(255), price DECIMAL(10, 2) );")
+//createTable("CREATE TABLE orders ( order_id INT PRIMARY KEY, customer_id INT, order_date DATE, total_amount DECIMAL(10, 2) );")
 //createTable("Create a table student with attribute name, rollno, marks")
-createTable("CREATE TABLE users ( id INT PRIMARY KEY, username VARCHAR(100), email VARCHAR(100) );")
+//createTable("CREATE TABLE users ( id INT PRIMARY KEY, username VARCHAR(100), email VARCHAR(100) );")
 
-console.log(tableMapToStringConvertor(tables))
+//console.log(tableMapToStringConvertor(tables))
 
-const tableString = tableMapToStringConvertor(tables);
+//const tableString = tableMapToStringConvertor(tables);
 
-createVectorEmbeddings(tableString);
+//createVectorEmbeddings(tableString);
 
-//createSqlQueryFromQuestion("Give me username of all users");
+createSqlQueryFromQuestion("Give me username of all users");
