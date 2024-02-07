@@ -50,24 +50,33 @@ async function createVectorEmbeddings(tableString: string){
     const VECTOR_STORE_PATH = './docs/data.index';
     let vectorStore;
     //const agileJson = await fs.readFile(jsonDirectory + '/data.json', 'utf-8');
-    const textSpiltter = new RecursiveCharacterTextSplitter({
-        chunkSize: 1000,
-    })
-    const docs = await textSpiltter.createDocuments([tableString]);
-    vectorStore = await HNSWLib.fromDocuments(docs, new OpenAIEmbeddings());
-    await vectorStore.save(VECTOR_STORE_PATH);
-    console.log("succesfully create vector store ");
+    const fileExists : boolean = await checkFileExists(VECTOR_STORE_PATH);
+
+    if(fileExists){
+        console.log("Vector Store Already Exist");
+        vectorStore = await HNSWLib.load(VECTOR_STORE_PATH, new OpenAIEmbeddings());   
+    } else {
+        console.log("Creating Vector Store");
+        
+        const textSpiltter = new RecursiveCharacterTextSplitter({
+            chunkSize: 1000,
+        })
+        const docs = await textSpiltter.createDocuments([tableString]);
+        vectorStore = await HNSWLib.fromDocuments(docs, new OpenAIEmbeddings());
+        await vectorStore.save(VECTOR_STORE_PATH);
+        console.log("succesfully create vector store ");
+    }
 }
 
-// async function checkFileExists(filePath){
-//     try{
-//         await fs.acess(filePath);
-//         return true;
-//     } catch (error) {
-//         retu
-//     }
-// }
-// Example usage:
+async function checkFileExists(filePath : string) : Promise<boolean>{
+    try{
+        await fs.access(filePath);
+        return true;
+    } catch (error) {
+        return false;
+    }
+}
+
 const sqlQuery = "CREATE TABLE users (id INT, name VARCHAR(255))";
 
 
