@@ -4,12 +4,16 @@ import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
 import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter';
 import { OpenAI } from 'langchain/llms/openai';
 import { HNSWLib } from 'langchain/vectorstores/hnswlib';
+import { RetrievalQAChain } from 'langchain/chains';
 import dotenv from 'dotenv';
 dotenv.config();
 
 const tables: { [key: string]: string } = {
 
 };
+
+let vectorStore : any;
+const model = new OpenAI({});
 
 function createTable(sqlQuery : string) : void {
     const tableName = extractTableName(sqlQuery);
@@ -46,15 +50,15 @@ function tableMapToStringConvertor(jsonObj: { [key: string]: string }): string {
 
 async function createVectorEmbeddings(tableString: string){
     //const jsonDirectory = path.join(process.cwd(), 'data/sample');
-    const model = new OpenAI({});
+    //const model = new OpenAI({});
     const VECTOR_STORE_PATH = './docs/data.index';
-    let vectorStore;
     //const agileJson = await fs.readFile(jsonDirectory + '/data.json', 'utf-8');
     const fileExists : boolean = await checkFileExists(VECTOR_STORE_PATH);
 
     if(fileExists){
         console.log("Vector Store Already Exist");
         vectorStore = await HNSWLib.load(VECTOR_STORE_PATH, new OpenAIEmbeddings());   
+        console.log("this is vectorStore", vectorStore);
     } else {
         console.log("Creating Vector Store");
         
@@ -64,6 +68,7 @@ async function createVectorEmbeddings(tableString: string){
         const docs = await textSpiltter.createDocuments([tableString]);
         vectorStore = await HNSWLib.fromDocuments(docs, new OpenAIEmbeddings());
         await vectorStore.save(VECTOR_STORE_PATH);
+        console.log("this is vectorStore", vectorStore);
         console.log("succesfully create vector store ");
     }
 }
@@ -76,6 +81,23 @@ async function checkFileExists(filePath : string) : Promise<boolean>{
         return false;
     }
 }
+
+async function createSqlQueryFromQuestion(question : string){
+    //const model = new OpenAI({});
+    console.log("createSqlQueryFromQuestion");
+    //const VECTOR_STORE_PATH = './docs/data.index';
+    //var vectorStore = await HNSWLib.load(VECTOR_STORE_PATH, new OpenAIEmbeddings());
+    const chain = RetrievalQAChain.fromLLM(model, vectorStore.asRetriever());
+    const res = await chain.call({
+        query: `Answer this question with sql query according to schema provided : ${question}`,
+    });
+    console.log("response ->",res);
+    return {
+        res,
+    };
+}
+
+
 
 const sqlQuery = "CREATE TABLE users (id INT, name VARCHAR(255))";
 
@@ -90,4 +112,6 @@ console.log(tableMapToStringConvertor(tables))
 
 const tableString = tableMapToStringConvertor(tables);
 
- createVectorEmbeddings(tableString);
+createVectorEmbeddings(tableString);
+
+//createSqlQueryFromQuestion("Give me username of all users");
