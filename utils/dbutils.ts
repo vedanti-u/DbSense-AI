@@ -88,7 +88,18 @@ async function createSqlQueryFromQuestion(question : string){
         console.log("Loading Vector Store");
         vectorStore = await HNSWLib.load(VECTOR_STORE_PATH,openAIEmbeddings);   
         const chain = RetrievalQAChain.fromLLM(model, vectorStore.asRetriever());
-         const prompt = `Given the SQL schema provided, answer the question: "${question}". Provide the SQL query only.`;
+         const prompt = `
+         Considering the schema provided
+
+         Answer the following question using SQL:
+         
+         Question: ${question}
+         
+         Your SQL query should retrieve the requested information without any additional characters or spaces. 
+         Remove any delimeter if present like "\n" or \n or newline character.
+         Please ensure the query is formatted correctly and only includes the necessary components.
+     `;
+;
         
         const res = await chain.call({
             query: prompt,
