@@ -1,0 +1,1 @@
+[["0",{"pageContent":"CREATE TABLE users ( id INT PRIMARY KEY, username VARCHAR(100), email VARCHAR(100) );\n\nCREATE TABLE products ( product_id INT PRIMARY KEY, name VARCHAR(255), price DECIMAL(10, 2) );\n\nCREATE TABLE orders ( order_id INT PRIMARY KEY, customer_id INT, order_date DATE, total_amount DECIMAL(10, 2) );","metadata":{"loc":{"lines":{"from":1,"to":5}}}}]]
