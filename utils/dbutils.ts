@@ -113,7 +113,7 @@ async function createSqlQueryFromQuestion(question : string){
          Please ensure the query is formatted correctly and only includes the necessary components.
      `;
 ;
-          
+           
         var res = await chain.call({
             query: prompt,
         });
