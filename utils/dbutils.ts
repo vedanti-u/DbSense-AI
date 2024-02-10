@@ -6,11 +6,23 @@ import { OpenAI } from 'langchain/llms/openai';
 import { HNSWLib } from 'langchain/vectorstores/hnswlib';
 import { RetrievalQAChain } from 'langchain/chains';
 import dotenv from 'dotenv';
+import { Client, QueryResult } from 'pg';
+
 dotenv.config();
 
 const tables: { [key: string]: string } = {
 
 };
+
+// const client = new Client({
+//     user: process.env.DB_USER,
+//     host: process.env.DB_HOST,
+//     database: process.env.DB_DATABASE,
+//     password: process.env.DB_PASSWORD,
+//     port: 5432,
+// });
+
+// client.connect();
 
 let vectorStore : HNSWLib;
 const model = new OpenAI({});
@@ -18,6 +30,7 @@ const VECTOR_STORE_PATH = './docs/data.index';
 const openAIEmbeddings = new OpenAIEmbeddings();
 
 function createTable(sqlQuery : string) : void {
+    sqlQuery.replace(/\n|\+/g, '');
     const tableName = extractTableName(sqlQuery);
     if (tableName) {
         console.log("Table name:", tableName);
@@ -42,7 +55,7 @@ function tableMapToStringConvertor(jsonObj: { [key: string]: string }): string {
     for (const key in jsonObj) {
         if (Object.prototype.hasOwnProperty.call(jsonObj, key)) {
             const value = jsonObj[key];
-            resultString += value + "\n\n"; // Adding value followed by a newline character
+            resultString += value; // Adding value followed by a newline character
         }
     }
     return resultString;
@@ -96,18 +109,20 @@ async function createSqlQueryFromQuestion(question : string){
          Question: ${question}
          
          Your SQL query should retrieve the requested information without any additional characters or spaces. 
-         Remove any delimeter if present like "\n" or \n or newline character.
+         Remove any delimiter if present like "\n" or \n or newline character.
          Please ensure the query is formatted correctly and only includes the necessary components.
      `;
 ;
-        
+          
         var res = await chain.call({
             query: prompt,
         });
         
         console.log("response before ->", res);
-        const regex = /^\s*|\s*\\n\s*|\s*$/g;
-        res.text = res.text.replace(regex, '');
+        // Properly format the SQL query
+        res.text = res.text.trim(); // Remove leading and trailing whitespace
+        res.text = res.text.replace(/\n+/g, ' '); // Replace multiple consecutive newlines with a single space
+        res.text = res.text.replace(/\s+/g, ' '); // Replace multiple consecutive spaces with a single space
         console.log("response after ->", res);
         return {
           res,
@@ -115,6 +130,61 @@ async function createSqlQueryFromQuestion(question : string){
     }
 }
 
+async function generateResponseFromDB(query: string){
+    const client = new Client({
+        user: process.env.DB_USER,
+        host: process.env.DB_HOST,
+        database: process.env.DB_DATABASE,
+        password: process.env.DB_PASSWORD,
+        port: 5432,
+    });
+
+    try {
+        await client.connect();
+
+        const result: QueryResult = await client.query(query);
+
+        console.log("Query executed successfully!");
+        console.log("Number of rows returned:", result.rowCount);
+        console.log("Command type:", result.command);
+
+        console.log("Rows:");
+
+        for(const row of result.rows){
+            console.log(row);
+        }
+        return result;
+    } catch (err) {
+        console.error("Error executing query:", err);
+    } finally {
+        await client.end();
+    }
+}
+
+async function summarizeQuestionwithResponse(question : string, answer : string){
+    console.log("Loading Vector Store for summarizer");
+    vectorStore = await HNSWLib.load(VECTOR_STORE_PATH,openAIEmbeddings);   
+    const chain = RetrievalQAChain.fromLLM(model, vectorStore.asRetriever());
+     const prompt = `
+     Consider the following question:
+
+        Question: ${question}
+
+        Generate a summary for the response received below:
+
+        Response: ${JSON.stringify(answer)}
+ `;
+;
+    
+    var res = await chain.call({
+        query: prompt,
+    });
+
+    console.log("Summarized text ->", res.text);
+    return {
+      res,
+    };
+}
 //const sqlQuery = "CREATE TABLE users (id INT, name VARCHAR(255))";
 
 
@@ -130,23 +200,25 @@ async function createSqlQueryFromQuestion(question : string){
 
 //createVectorEmbeddings(tableString);
 //createSqlQueryFromQuestion("Give me username of all users");
-createTable(`CREATE TABLE students (
-    id SERIAL PRIMARY KEY,
-    first_name VARCHAR(50),
-    roll_no VARCHAR(20),
-    dob DATE,
-    attendance FLOAT,
-    marks_maths INTEGER,
-    marks_science INTEGER,
-    marks_english INTEGER
-);
-`);
-createTable(`CREATE TABLE departments (
-    id SERIAL PRIMARY KEY,
-    dept_name VARCHAR(100),
-    no_of_courses INTEGER,
-    no_of_students INTEGER,
-    dept_course VARCHAR(100),
-    dept_hod VARCHAR(100)
-);
-`);
+//createTable("CREATE TABLE students (id SERIAL PRIMARY KEY,first_name VARCHAR(50),roll_no VARCHAR(20),dob DATE,attendance FLOAT,marks_maths INTEGER,marks_science INTEGER,marks_english INTEGER);");
+//createTable("CREATE TABLE departments (id SERIAL PRIMARY KEY,dept_name VARCHAR(100),no_of_courses INTEGER,no_of_students INTEGER,dept_course VARCHAR(100),dept_hod VARCHAR(100));");
+//const tableString = tableMapToStringConvertor(tables);
+//createVectorEmbeddings(tableString);
+//createSqlQueryFromQuestion("which department has lowest number of courses");
+//createSqlQueryFromQuestion("which department has course quantum mechanics");
+
+
+(async () => {
+    const prompt : string = "Give me name of student who has obatined marks greater than 90 in all subjects";
+    const queryResponse = await createSqlQueryFromQuestion(prompt);
+    //console.log(typeof queryResponse);
+    if (queryResponse && queryResponse.res && queryResponse.res.text) {
+        const generatedRes : any  = await generateResponseFromDB(queryResponse.res.text);
+        await summarizeQuestionwithResponse(prompt, generatedRes.rows );
+    } else {
+        console.log("Query response is invalid");
+    }
+})();
+
+
+//generateResponseFromDB(queryResponse.text);
