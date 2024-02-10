@@ -88,15 +88,29 @@ async function createSqlQueryFromQuestion(question : string){
         console.log("Loading Vector Store");
         vectorStore = await HNSWLib.load(VECTOR_STORE_PATH,openAIEmbeddings);   
         const chain = RetrievalQAChain.fromLLM(model, vectorStore.asRetriever());
-         const prompt = `Given the SQL schema provided, answer the question: "${question}". Provide the SQL query only.`;
+         const prompt = `
+         Considering the schema provided
+
+         Answer the following question using SQL:
+         
+         Question: ${question}
+         
+         Your SQL query should retrieve the requested information without any additional characters or spaces. 
+         Remove any delimeter if present like "\n" or \n or newline character.
+         Please ensure the query is formatted correctly and only includes the necessary components.
+     `;
+;
         
-        const res = await chain.call({
+        var res = await chain.call({
             query: prompt,
         });
         
-         console.log("response ->",res);
+        console.log("response before ->", res);
+        const regex = /^\s*|\s*\\n\s*|\s*$/g;
+        res.text = res.text.replace(regex, '');
+        console.log("response after ->", res);
         return {
-        res,
+          res,
         };
     }
 }
@@ -115,5 +129,24 @@ async function createSqlQueryFromQuestion(question : string){
 //const tableString = tableMapToStringConvertor(tables);
 
 //createVectorEmbeddings(tableString);
-
-createSqlQueryFromQuestion("Give me username of all users");
+//createSqlQueryFromQuestion("Give me username of all users");
+createTable(`CREATE TABLE students (
+    id SERIAL PRIMARY KEY,
+    first_name VARCHAR(50),
+    roll_no VARCHAR(20),
+    dob DATE,
+    attendance FLOAT,
+    marks_maths INTEGER,
+    marks_science INTEGER,
+    marks_english INTEGER
+);
+`);
+createTable(`CREATE TABLE departments (
+    id SERIAL PRIMARY KEY,
+    dept_name VARCHAR(100),
+    no_of_courses INTEGER,
+    no_of_students INTEGER,
+    dept_course VARCHAR(100),
+    dept_hod VARCHAR(100)
+);
+`);
