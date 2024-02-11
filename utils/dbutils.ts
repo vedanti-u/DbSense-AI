@@ -153,6 +153,8 @@ async function generateResponseFromDB(query: string){
         for(const row of result.rows){
             console.log(row);
         }
+
+        console.table(result.rows); 
         return result;
     } catch (err) {
         console.error("Error executing query:", err);
@@ -209,7 +211,7 @@ async function summarizeQuestionwithResponse(question : string, answer : string)
 
 
 (async () => {
-    const prompt : string = "Give me name of student who has obatined marks greater than 90 in all subjects";
+    const prompt : string = "Give me name of all departments who has strength less than 100";
     const queryResponse = await createSqlQueryFromQuestion(prompt);
     //console.log(typeof queryResponse);
     if (queryResponse && queryResponse.res && queryResponse.res.text) {
