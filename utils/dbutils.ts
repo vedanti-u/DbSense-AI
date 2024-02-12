@@ -29,7 +29,7 @@ const model = new OpenAI({});
 const VECTOR_STORE_PATH = './docs/data.index';
 const openAIEmbeddings = new OpenAIEmbeddings();
 
-function createTable(sqlQuery : string) : void {
+function createTable(sqlQuery : string) : void { //llm
     sqlQuery.replace(/\n|\+/g, '');
     const tableName = extractTableName(sqlQuery);
     if (tableName) {
@@ -41,7 +41,7 @@ function createTable(sqlQuery : string) : void {
     console.log(tables);
 }
   
-function extractTableName(sqlQuery: string): string | null {
+function extractTableName(sqlQuery: string): string | null { //llm
     const regex = /CREATE\s+TABLE\s+(\S+)/i;
     const match = sqlQuery.match(regex);
     if (match && match.length > 1) {
@@ -50,7 +50,7 @@ function extractTableName(sqlQuery: string): string | null {
     return null;
 }
 
-function tableMapToStringConvertor(jsonObj: { [key: string]: string }): string {
+function tableMapToStringConvertor(jsonObj: { [key: string]: string }): string { //llm
     let resultString = "";
     for (const key in jsonObj) {
         if (Object.prototype.hasOwnProperty.call(jsonObj, key)) {
@@ -63,7 +63,7 @@ function tableMapToStringConvertor(jsonObj: { [key: string]: string }): string {
 
 
 
-async function createVectorEmbeddings(tableString: string){
+async function createVectorEmbeddings(tableString: string){ //llm
     const fileExists : boolean = await checkFileExists(VECTOR_STORE_PATH);
 
     if(fileExists){
@@ -84,7 +84,7 @@ async function createVectorEmbeddings(tableString: string){
     }
 }
 
-async function checkFileExists(filePath : string) : Promise<boolean>{
+async function checkFileExists(filePath : string) : Promise<boolean>{ //llm
     try{
         await fs.access(filePath);
         return true;
@@ -93,7 +93,7 @@ async function checkFileExists(filePath : string) : Promise<boolean>{
     }
 }
 
-async function createSqlQueryFromQuestion(question : string){
+async function createSqlQueryFromQuestion(question : string){ //prompt
     console.log("createSqlQueryFromQuestion");
     const fileExists : boolean = await checkFileExists(VECTOR_STORE_PATH);
 
@@ -130,7 +130,7 @@ async function createSqlQueryFromQuestion(question : string){
     }
 }
 
-async function generateResponseFromDB(query: string){
+async function generateResponseFromDB(query: string){  //db
     const client = new Client({
         user: process.env.DB_USER,
         host: process.env.DB_HOST,
@@ -163,7 +163,7 @@ async function generateResponseFromDB(query: string){
     }
 }
 
-async function summarizeQuestionwithResponse(question : string, answer : string){
+async function summarizeQuestionwithResponse(question : string, answer : string){ //prompt
     console.log("Loading Vector Store for summarizer");
     vectorStore = await HNSWLib.load(VECTOR_STORE_PATH,openAIEmbeddings);   
     const chain = RetrievalQAChain.fromLLM(model, vectorStore.asRetriever());
