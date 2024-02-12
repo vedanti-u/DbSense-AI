@@ -1,0 +1,5 @@
+{
+    "username": "User Name",
+    "password": "Password",
+    "hasBlog": "{0} has a blog named, {1}. This is on {2}."
+}
