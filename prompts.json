@@ -1,5 +1,3 @@
 {
-    "username": "User Name",
-    "password": "Password",
-    "hasBlog": "{0} has a blog named, {1}. This is on {2}."
+    "prompt_ask_llm" : "Considering the schema provided Answer the following question using SQL: Question: {0} Your SQL query should retrieve the requested information without any additional characters or spaces. Remove any delimiter if present like \\n or newline character. Please ensure the query is formatted correctly and only includes the necessary components."
 }

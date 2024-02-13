@@ -5,24 +5,29 @@ import { OpenAI } from 'langchain/llms/openai';
 import { HNSWLib } from 'langchain/vectorstores/hnswlib';
 import { RetrievalQAChain } from 'langchain/chains';
 import { ChatCompletionStream } from 'openai/lib/ChatCompletionStream';
-import i18next from 'i18next';
 import dotenv from 'dotenv';
-
+import { raw } from 'express';
 dotenv.config();
 
-i18next.init({
-  fallbackLng: 'en',
-  fallbackNS: 'common',
-  resources: {
-    en: {
-      translation: {
-        "key": "{{what}} is {{how}}"
-      }
-    }
-  }
-});
+let rawData = fs.readFileSync('prompts.json', 'utf8');
+console.log("rawData", rawData)
+let jsonData = JSON.parse(rawData);
 
-console.log(i18next.t('key', { what: 'i18next', how: 'great' }));
+console.log("jsonData", jsonData)
+
+function parseMessage(unformatedPrompt : string, ...args: string[]){
+  console.log(unformatedPrompt);
+  console.log(args);
+  for(var index in args){
+    console.log(args[index])
+    var stringToReplace = `{${index}}`
+    console.log(stringToReplace);
+    var formatedPrompt = unformatedPrompt.replace(stringToReplace, args[index])
+    console.log(formatedPrompt)
+  }
+}
+
+parseMessage(jsonData.prompt_ask_llm,"how many students")
 export class PromptService{
 
     // private vectorStore : HNSWLib | undefined;
