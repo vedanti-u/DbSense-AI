@@ -27,7 +27,7 @@ export class LLMService{
         this.vectorStorePath ='./docs/data.index'
     }
 
-    public createTable(sqlQueryForTable : string) : void{
+    public async createTable(sqlQueryForTable : string) {
         sqlQueryForTable.replace(/\n|\+/g, '');
         const tableName = this.extractTableNameFromCreateQuery(sqlQueryForTable);
         if(tableName){
@@ -37,12 +37,11 @@ export class LLMService{
             console.log("Table name not found");
         }
         console.log(this.tables);
-        this.deleteFile(this.vectorStorePath);
-        this.createVectorEmbeddings(this.tableObjToStringConvertor(this.tables));
-
+        await this.deleteFile(this.vectorStorePath);
+        await this.createVectorEmbeddings(this.tableObjToStringConvertor(this.tables));
     }
 
-    public updateTable(sqlQueryForTable : string) : void{
+    public updateTable(sqlQueryForTable : string) {
         sqlQueryForTable.replace(/\n|\+/g, '');
         const tableName = this.extractTableNameFromUpdateQuery(sqlQueryForTable);
         if(tableName){
@@ -52,7 +51,7 @@ export class LLMService{
             console.log("Table name not found");
         }
         this.deleteFile(this.vectorStorePath);
-        this.createVectorEmbeddings(this.tableObjToStringConvertor(this.tables));
+        this.createVectorEmbeddings(this.tableObjToStringConvertor(this.tables))
     }
 
     private extractTableNameFromCreateQuery(sqlQueryForTable : string) : string | null{
@@ -101,7 +100,7 @@ export class LLMService{
             const docs = await textSpiltter.createDocuments([tableString]);
             this.vectorStore = await HNSWLib.fromDocuments(docs, this.openAIEmbeddings);
             await this.vectorStore.save(this.vectorStorePath);
-            console.log("this is vectorStore", this.vectorStore);
+            //console.log("this is vectorStore", this.vectorStore);
             console.log("succesfully create vector store ");
         }
     }
@@ -124,9 +123,9 @@ export class LLMService{
     }
 }
 
-const object = new LLMService();
-const tableString = object.createTable("CREATE TABLE users3 (id INT, name VARCHAR(255));");
-console.log(object.tables)
- object.updateTable("UPDATE TABLE users3 (id INT, first_name VARCHAR(10));");
-console.log(object.tables)
+// const object = new LLMService();
+// const tableString = object.createTable("CREATE TABLE users3 (id INT, name VARCHAR(255));");
+// console.log(object.tables)
+//  object.updateTable("UPDATE TABLE users3 (id INT, first_name VARCHAR(10));");
+// console.log(object.tables)
 

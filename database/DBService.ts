@@ -54,13 +54,13 @@ export class DBService{
     
 }
 
-const object = new DBService({
-    host: process.env.DB_HOST,
-    port: 5432,
-    database: process.env.DB_DATABASE,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD
-});
+// const object = new DBService({
+//     host: process.env.DB_HOST,
+//     port: 5432,
+//     database: process.env.DB_DATABASE,
+//     user: process.env.DB_USER,
+//     password: process.env.DB_PASSWORD
+// });
 
-object.queryDatabase("select * from students").then( e => console.log(e)).catch( error => console.error(error));
+// object.queryDatabase("select * from students").then( e => console.log(e)).catch( error => console.error(error));
 
