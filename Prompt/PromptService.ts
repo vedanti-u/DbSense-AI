@@ -65,11 +65,11 @@ export class PromptService{
         }
     }
 
-    async summarizeQuestionwithResponse(question : string, answer : string){ //prompt
+    async summarizeResponse(question : string, answer : any){ //prompt
       console.log("Loading Vector Store for summarizer");
       this.vectorStore = await HNSWLib.load(this.vectorStorePath,this.openAIEmbeddings);   
       const chain = RetrievalQAChain.fromLLM(this.model, this.vectorStore.asRetriever());
-      const prompt = this.parseMessage(this.jsonData.prompt_summarize, JSON.stringify(answer));
+      const prompt = this.parseMessage(this.jsonData.prompt_summarize, question, JSON.stringify(answer));
       var res = await chain.call({
           query: prompt,
       });
@@ -80,22 +80,21 @@ export class PromptService{
       };
   }
     parseMessage(unformatedPrompt : string, ...args: string[]) : string | undefined{
-      console.log("Unformated Prompt",unformatedPrompt);
-      var formatedPrompt;
-      //console.log(args);
+      console.log("\nUnformated Prompt :",unformatedPrompt);
+      console.log("\nthis is args",args);
       for(var index in args){
-        //console.log(args[index])
-          var stringToReplace = `{${index}}`
-      // console.log(stringToReplace);
-          formatedPrompt = unformatedPrompt.replace(stringToReplace, args[index])
-          console.log("Formated Prompt",formatedPrompt)
-        }
-      return formatedPrompt;
+        console.log("\nthis is args[index]",args[index])
+        var stringToReplace = `{${index}}`
+        console.log("\nthis is stringtoreplace",stringToReplace);
+        unformatedPrompt = unformatedPrompt.replace(stringToReplace, args[index])
+        console.log("\nFormated Prompt: ",unformatedPrompt)
+      }
+      return unformatedPrompt;
   }
 }
 
-const object = new PromptService();
-const sqlQueryObtained = object.createSqlQuery("Give me name of all users");
+// const object = new PromptService();
+// const sqlQueryObtained = object.createSqlQuery("Give me name of all users");
 
 
     //console.log(typeof queryResponse);
