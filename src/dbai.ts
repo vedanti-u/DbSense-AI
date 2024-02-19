@@ -61,10 +61,14 @@ export class dbai {
               .queResponse(question, sqlResponse.res.text)
               .then((summary) => {
                 if (summary) {
-                  console.log("this is table", this.respObject);
-                  resolve("true");
+                  console.log("this is table ->", this.respObject.table);
+                  console.table(this.respObject.table);
+                  console.log("this is summary ->", this.respObject.summary);
+                  resolve(
+                    this.respObject.table + " -> " + this.respObject.summary
+                  );
                 } else {
-                  resolve("false");
+                  resolve("Failed to Generate summary");
                 }
               })
               .catch((error) => {
