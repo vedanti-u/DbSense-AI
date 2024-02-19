@@ -23,13 +23,13 @@ export class QuestionResponse {
         .queryDatabase(sqlQuery)
         .then((tableResponse) => {
           if (tableResponse) {
-            console.log("SQL Query Response", tableResponse.rows);
+            //console.log("SQL Query Response", tableResponse.rows);
             this.table = tableResponse.rows;
             this.promptObject
               .summarizeResponse(question, tableResponse.rows)
               .then((summResponse) => {
                 if (summResponse) {
-                  console.log("Summary is : ", summResponse);
+                  //console.log("Summary is : ", summResponse);
                   this.summary = summResponse.res.text;
                   resolve("this is resolve");
                 } else {
