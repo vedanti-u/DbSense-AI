@@ -62,7 +62,8 @@ const question : string = "give me name of all customers who are older than 40 y
             console.error("Error creating SQL query:", error);
         });
 
-    
+
+   
 //step 2 : create query
 
 

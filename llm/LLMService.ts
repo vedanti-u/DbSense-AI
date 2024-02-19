@@ -41,7 +41,7 @@ export class LLMService{
         await this.createVectorEmbeddings(this.tableObjToStringConvertor(this.tables));
     }
 
-    public updateTable(sqlQueryForTable : string) {
+    public async updateTable(sqlQueryForTable : string) {
         sqlQueryForTable.replace(/\n|\+/g, '');
         const tableName = this.extractTableNameFromUpdateQuery(sqlQueryForTable);
         if(tableName){
@@ -50,8 +50,8 @@ export class LLMService{
         } else {
             console.log("Table name not found");
         }
-        this.deleteFile(this.vectorStorePath);
-        this.createVectorEmbeddings(this.tableObjToStringConvertor(this.tables))
+        await this.deleteFile(this.vectorStorePath);
+        await this.createVectorEmbeddings(this.tableObjToStringConvertor(this.tables))
     }
 
     private extractTableNameFromCreateQuery(sqlQueryForTable : string) : string | null{
