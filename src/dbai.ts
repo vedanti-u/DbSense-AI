@@ -7,7 +7,7 @@ export class dbai {
   private dbObject: DBService;
   private promptObject: PromptService;
   private llmObject: LLMService;
-  private respObject: QuestionResponse;
+
   constructor() {
     this.dbObject = new DBService({
       host: process.env.DB_HOST,
@@ -18,7 +18,6 @@ export class dbai {
     });
     this.promptObject = new PromptService();
     this.llmObject = new LLMService();
-    this.respObject = new QuestionResponse();
   }
 
   async createTable(createQuery: string): Promise<boolean> {
@@ -50,37 +49,21 @@ export class dbai {
     });
   }
 
-  async ask(question: string): Promise<string> {
-    return new Promise<string>((resolve, reject) => {
-      this.promptObject
-        .createSqlQuery(question)
-        .then((sqlResponse) => {
-          if (sqlResponse) {
-            console.log("SQL query response:", sqlResponse.res);
-            this.respObject
-              .queResponse(question, sqlResponse.res.text)
-              .then((summary) => {
-                if (summary) {
-                  console.log("this is table ->", this.respObject.table);
-                  console.table(this.respObject.table);
-                  console.log("this is summary ->", this.respObject.summary);
-                  resolve(
-                    this.respObject.table + " -> " + this.respObject.summary
-                  );
-                } else {
-                  resolve("Failed to Generate summary");
-                }
-              })
-              .catch((error) => {
-                reject("Erro in queResponse: " + error);
-              });
-          } else {
-            console.log("No response received.");
-          }
-        })
-        .catch((error) => {
-          console.error("Error creating SQL query:", error);
-        });
+  async ask(question: string): Promise<QuestionResponse> {
+    return new Promise<QuestionResponse>(async (resolve, reject) => {
+      try {
+        var sqlResponse = await this.promptObject.createSqlQuery(question);
+        if (sqlResponse) {
+          let questionRespomse: QuestionResponse = new QuestionResponse();
+          var table = this.dbObject.queryDatabase(sqlResponse.res.text);
+          questionRespomse.table = table;
+          var summary = this.promptObject.summarizeResponse(question, table);
+          questionRespomse.summary = summary;
+          resolve(questionRespomse);
+        }
+      } catch (error) {
+        reject(error);
+      }
     });
   }
 }
