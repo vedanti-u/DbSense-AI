@@ -55,10 +55,13 @@ export class dbai {
         var sqlResponse = await this.promptObject.createSqlQuery(question);
         if (sqlResponse) {
           let questionRespomse: QuestionResponse = new QuestionResponse();
-          var table = this.dbObject.queryDatabase(sqlResponse.res.text);
-          questionRespomse.table = table;
-          var summary = this.promptObject.summarizeResponse(question, table);
-          questionRespomse.summary = summary;
+          var table = await this.dbObject.queryDatabase(sqlResponse.res.text);
+          questionRespomse.table = table.rows;
+          var summary = await this.promptObject.summarizeResponse(
+            question,
+            table.rows
+          );
+          questionRespomse.summary = summary.response.text;
           resolve(questionRespomse);
         }
       } catch (error) {
@@ -68,7 +71,7 @@ export class dbai {
   }
 }
 
-const dbaiObj = new dbai();
+//const dbaiObj = new dbai();
 // dbaiObj.createTable(
 //   "CREATE TABLE products (product_id SERIAL PRIMARY KEY,product_name VARCHAR(255) NOT NULL,product_type VARCHAR(100),product_price NUMERIC(10, 2));"
 // );
@@ -77,7 +80,7 @@ const dbaiObj = new dbai();
 //   "CREATE TABLE products (product_id SERIAL PRIMARY KEY,product_name VARCHAR(20) NOT NULL,product_type VARCHAR(100),product_price NUMERIC(10, 2));"
 // );
 
-dbaiObj.ask("give me name of all products");
+//dbaiObj.ask("give me name of all products");
 //// const tableString = object.createTable("CREATE TABLE users3 (id INT, name VARCHAR(255));");
 // console.log(object.tables)
 //  object.updateTable("UPDATE TABLE users3 (id INT, first_name VARCHAR(10));");

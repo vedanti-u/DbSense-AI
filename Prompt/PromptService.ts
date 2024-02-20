@@ -88,13 +88,13 @@ export class PromptService {
       question,
       JSON.stringify(answer)
     );
-    var res = await chain.call({
+    var response = await chain.call({
       query: prompt,
     });
 
-    console.log("Summarized text ->", res.text);
+    console.log("Summarized text ->", response.text);
     return {
-      res,
+      response,
     };
   }
   parseMessage(
