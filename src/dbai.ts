@@ -1,4 +1,3 @@
-import { collapseTextChangeRangesAcrossMultipleVersions } from "typescript";
 import { DBService } from "../database/DBService";
 import { LLMService } from "../llm/LLMService";
 import { PromptService } from "../prompt/PromptService";
