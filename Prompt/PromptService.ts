@@ -4,9 +4,7 @@ import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import { OpenAI } from "langchain/llms/openai";
 import { HNSWLib } from "langchain/vectorstores/hnswlib";
 import { RetrievalQAChain } from "langchain/chains";
-import { ChatCompletionStream } from "openai/lib/ChatCompletionStream";
 import dotenv from "dotenv";
-import { raw } from "express";
 
 dotenv.config();
 
@@ -46,19 +44,19 @@ export class PromptService {
       );
 
       const prompt = this.parseMessage(this.jsonData.prompt_sql, question);
-      console.log("THis is prompt :", prompt);
-      var res = await chain.call({
+      console.log("This is prompt :", prompt);
+      var response = await chain.call({
         query: prompt,
       });
 
-      console.log("response before ->", res);
+      console.log("response before ->", response);
       // Properly format the SQL query
-      res.text = res.text.trim(); // Remove leading and trailing whitespace
-      res.text = res.text.replace(/\n+/g, " "); // Replace multiple consecutive newlines with a single space
-      res.text = res.text.replace(/\s+/g, " "); // Replace multiple consecutive spaces with a single space
-      console.log("response after ->", res);
+      response.text = response.text.trim(); // Remove leading and trailing whitespace
+      response.text = response.text.replace(/\n+/g, " "); // Replace multiple consecutive newlines with a single space
+      response.text = response.text.replace(/\s+/g, " "); // Replace multiple consecutive spaces with a single space
+      console.log("response after ->", response);
       return {
-        res,
+        response,
       };
     }
   }
@@ -97,6 +95,7 @@ export class PromptService {
       response,
     };
   }
+
   parseMessage(
     unformatedPrompt: string,
     ...args: string[]
@@ -110,7 +109,8 @@ export class PromptService {
       unformatedPrompt = unformatedPrompt.replace(stringToReplace, args[index]);
       console.log("\nFormated Prompt: ", unformatedPrompt);
     }
-    return unformatedPrompt;
+    var formatedPrompt: string = unformatedPrompt;
+    return formatedPrompt;
   }
 }
 

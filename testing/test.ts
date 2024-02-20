@@ -1,13 +1,15 @@
-import { dbai } from "../src/dbai";
+import { Dbai } from "../src/dbai";
 
-const object = new dbai();
+const dbai = new Dbai();
 
 (async function tester() {
   try {
-    await object.createTable(
+    await dbai.createTable(
       "CREATE TABLE cosmetics (brand VARCHAR(100) NOT NULL,product_type VARCHAR(100) NOT NULL,product_price NUMERIC(10, 2));"
     );
-    let response = await object.ask("name all the cosmetics with price");
+    let response = await dbai.ask(
+      "Give me name of all brands sorted in ascending order of price"
+    );
     console.table(response.table);
     console.log(response.summary);
   } catch (error) {
