@@ -2,7 +2,7 @@ import { DBService } from "./database/DBService";
 import { LLMService } from "./llm/LLMService";
 import { PromptService } from "./prompt/PromptService";
 import { QuestionResponse } from "./model/QuestionResponse";
-export class Dbai {
+export class DbSenseAi {
   private dbService: DBService;
   private promptService: PromptService;
   private llmService: LLMService;
@@ -71,4 +71,4 @@ export class Dbai {
     });
   }
 }
-module.exports = Dbai;
+module.exports = DbSenseAi;
