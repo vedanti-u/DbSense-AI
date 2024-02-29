@@ -1,13 +1,13 @@
-import { Dbai } from "../index";
+import { DbSenseAi } from "../index";
 
-const dbai = new Dbai();
+const dbsenseai = new DbSenseAi();
 
 (async function tester() {
   try {
-    await dbai.createTable(
+    await dbsenseai.createTable(
       "CREATE TABLE cosmetics (brand VARCHAR(100) NOT NULL,product_type VARCHAR(100) NOT NULL,product_price NUMERIC(10, 2));"
     );
-    let response = await dbai.ask(
+    let response = await dbsenseai.ask(
       "Give me name of all brands sorted in ascending order of price"
     );
     console.table(response.table);
