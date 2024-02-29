@@ -72,18 +72,3 @@ export class Dbai {
   }
 }
 module.exports = Dbai;
-
-//const dbaiObj = new dbai();
-// dbaiObj.createTable(
-//   "CREATE TABLE products (product_id SERIAL PRIMARY KEY,product_name VARCHAR(255) NOT NULL,product_type VARCHAR(100),product_price NUMERIC(10, 2));"
-// );
-
-// dbaiObj.updateTable(
-//   "CREATE TABLE products (product_id SERIAL PRIMARY KEY,product_name VARCHAR(20) NOT NULL,product_type VARCHAR(100),product_price NUMERIC(10, 2));"
-// );
-
-//dbaiObj.ask("give me name of all products");
-//// const tableString = object.createTable("CREATE TABLE users3 (id INT, name VARCHAR(255));");
-// console.log(object.tables)
-//  object.updateTable("UPDATE TABLE users3 (id INT, first_name VARCHAR(10));");
-// expport dbai.ts

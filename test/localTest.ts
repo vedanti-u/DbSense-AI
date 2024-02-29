@@ -1,4 +1,4 @@
-import { Dbai } from "../src/dbai";
+import { Dbai } from "../index";
 
 const dbai = new Dbai();
 

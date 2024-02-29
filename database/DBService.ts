@@ -25,7 +25,6 @@ export class DBService {
 
   public async queryDatabase(inputQuery: string): Promise<QueryResult> {
     return new Promise<QueryResult>((resolve, reject) => {
-      //console.log(this.client.host);
       this.client
         .query(inputQuery)
         .then((result: QueryResult) => {
@@ -52,13 +51,3 @@ export class DBService {
     });
   }
 }
-
-// const object = new DBService({
-//     host: process.env.DB_HOST,
-//     port: 5432,
-//     database: process.env.DB_DATABASE,
-//     user: process.env.DB_USER,
-//     password: process.env.DB_PASSWORD
-// });
-
-// object.queryDatabase("select * from students").then( e => console.log(e)).catch( error => console.error(error));

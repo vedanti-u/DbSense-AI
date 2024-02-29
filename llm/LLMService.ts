@@ -110,7 +110,6 @@ export class LLMService {
         this.openAIEmbeddings
       );
       await this.vectorStore.save(this.vectorStorePath);
-      //console.log("this is vectorStore", this.vectorStore);
       console.log("Succesfully create vector store ");
     }
   }
@@ -132,9 +131,3 @@ export class LLMService {
     }
   }
 }
-
-// const object = new LLMService();
-// const tableString = object.createTable("CREATE TABLE users3 (id INT, name VARCHAR(255));");
-// console.log(object.tables)
-//  object.updateTable("UPDATE TABLE users3 (id INT, first_name VARCHAR(10));");
-// console.log(object.tables)
