@@ -4,4 +4,3 @@ exports.QuestionResponse = void 0;
 class QuestionResponse {
 }
 exports.QuestionResponse = QuestionResponse;
-//POJO

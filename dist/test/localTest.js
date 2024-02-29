@@ -9,8 +9,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const dbai_1 = require("../src/dbai");
-const dbai = new dbai_1.Dbai();
+const index_1 = require("../index");
+const dbai = new index_1.Dbai();
 (function tester() {
     return __awaiter(this, void 0, void 0, function* () {
         try {

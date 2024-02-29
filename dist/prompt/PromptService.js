@@ -67,10 +67,9 @@ class PromptService {
                     query: prompt,
                 });
                 console.log("response before ->", response);
-                // Properly format the SQL query
-                response.text = response.text.trim(); // Remove leading and trailing whitespace
-                response.text = response.text.replace(/\n+/g, " "); // Replace multiple consecutive newlines with a single space
-                response.text = response.text.replace(/\s+/g, " "); // Replace multiple consecutive spaces with a single space
+                response.text = response.text.trim();
+                response.text = response.text.replace(/\n+/g, " ");
+                response.text = response.text.replace(/\s+/g, " ");
                 console.log("response after ->", response);
                 return {
                     response,
@@ -91,7 +90,6 @@ class PromptService {
     }
     summarizeResponse(question, answer) {
         return __awaiter(this, void 0, void 0, function* () {
-            //prompt
             console.log("Loading Vector Store for summarizer");
             this.vectorStore = yield hnswlib_1.HNSWLib.load(this.vectorStorePath, this.openAIEmbeddings);
             const chain = chains_1.RetrievalQAChain.fromLLM(this.model, this.vectorStore.asRetriever());
@@ -120,7 +118,3 @@ class PromptService {
     }
 }
 exports.PromptService = PromptService;
-// const object = new PromptService();
-// const sqlQueryObtained = object.createSqlQuery("Give me name of all users");
-//console.log(typeof queryResponse);
-//parseMessage(jsonData.prompt_ask_llm,"how many students")
