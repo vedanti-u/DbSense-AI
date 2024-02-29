@@ -50,10 +50,9 @@ export class PromptService {
       });
 
       console.log("response before ->", response);
-      // Properly format the SQL query
-      response.text = response.text.trim(); // Remove leading and trailing whitespace
-      response.text = response.text.replace(/\n+/g, " "); // Replace multiple consecutive newlines with a single space
-      response.text = response.text.replace(/\s+/g, " "); // Replace multiple consecutive spaces with a single space
+      response.text = response.text.trim();
+      response.text = response.text.replace(/\n+/g, " ");
+      response.text = response.text.replace(/\s+/g, " ");
       console.log("response after ->", response);
       return {
         response,
@@ -71,7 +70,6 @@ export class PromptService {
   }
 
   async summarizeResponse(question: string, answer: any) {
-    //prompt
     console.log("Loading Vector Store for summarizer");
     this.vectorStore = await HNSWLib.load(
       this.vectorStorePath,
@@ -113,9 +111,3 @@ export class PromptService {
     return formatedPrompt;
   }
 }
-
-// const object = new PromptService();
-// const sqlQueryObtained = object.createSqlQuery("Give me name of all users");
-
-//console.log(typeof queryResponse);
-//parseMessage(jsonData.prompt_ask_llm,"how many students")

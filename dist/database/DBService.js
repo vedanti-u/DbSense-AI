@@ -30,7 +30,6 @@ class DBService {
     queryDatabase(inputQuery) {
         return __awaiter(this, void 0, void 0, function* () {
             return new Promise((resolve, reject) => {
-                //console.log(this.client.host);
                 this.client
                     .query(inputQuery)
                     .then((result) => {
@@ -56,11 +55,3 @@ class DBService {
     }
 }
 exports.DBService = DBService;
-// const object = new DBService({
-//     host: process.env.DB_HOST,
-//     port: 5432,
-//     database: process.env.DB_DATABASE,
-//     user: process.env.DB_USER,
-//     password: process.env.DB_PASSWORD
-// });
-// object.queryDatabase("select * from students").then( e => console.log(e)).catch( error => console.error(error));

@@ -2,4 +2,6 @@
 # dependencies
 /node_modules
 # vector store
-/docs/data.index
+docs/data.index
+docs/data.index/*
+docs/data.index/*/
