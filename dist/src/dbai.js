@@ -10,10 +10,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Dbai = void 0;
-const DBService_1 = require("./database/DBService");
-const LLMService_1 = require("./llm/LLMService");
-const PromptService_1 = require("./prompt/PromptService");
-const QuestionResponse_1 = require("./model/QuestionResponse");
+const DBService_1 = require("../database/DBService");
+const LLMService_1 = require("../llm/LLMService");
+const PromptService_1 = require("../prompt/PromptService");
+const QuestionResponse_1 = require("../model/QuestionResponse");
 class Dbai {
     constructor() {
         this.dbService = new DBService_1.DBService({
@@ -80,7 +80,6 @@ class Dbai {
     }
 }
 exports.Dbai = Dbai;
-module.exports = Dbai;
 //const dbaiObj = new dbai();
 // dbaiObj.createTable(
 //   "CREATE TABLE products (product_id SERIAL PRIMARY KEY,product_name VARCHAR(255) NOT NULL,product_type VARCHAR(100),product_price NUMERIC(10, 2));"
