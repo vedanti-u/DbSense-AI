@@ -1,4 +1,0 @@
-{
-    "prompt_sql" : "Considering the schema provided Answer the following question using SQL: Question: {0} . Your SQL query should retrieve the requested information without any additional characters or spaces. Remove any delimiter if present like \\n or newline character. Please ensure the query is formatted correctly and only includes the necessary components.",
-    "prompt_summarize" : "Consider the following Question: {0} Generate a summary for the response received below: Response: {1}, the summary should contain the explanation of the response received based on the question, don't explain the schema or question just summaraize response recieved"
-}
