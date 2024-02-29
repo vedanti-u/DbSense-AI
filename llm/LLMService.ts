@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
-import { OpenAI } from "langchain/llms/openai";
+import { OpenAI } from "@langchain/openai";
 import { HNSWLib } from "langchain/vectorstores/hnswlib";
 import dotenv from "dotenv";
 dotenv.config();
