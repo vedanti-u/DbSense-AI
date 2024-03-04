@@ -15,7 +15,6 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/dotenv": "^8.2.0",
     "@types/node": "^20.11.17",
     "@types/pg": "^8.11.0",
     "typescript": "^5.3.3"
@@ -34,6 +33,7 @@
     "openai": "^4.26.1",
     "pg": "^8.11.3",
     "rimraf": "^5.0.5",
-    "ts-node": "^10.9.2"
+    "ts-node": "^10.9.2",
+    "@types/dotenv": "^8.2.0"
   }
 }
