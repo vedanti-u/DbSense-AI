@@ -8,14 +8,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-const index_1 = require("../index");
-const dbai = new index_1.Dbai();
+var DbSenseAi = require("../dist/index.js");
+const dbsenseai = new DbSenseAi();
 (function tester() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            yield dbai.createTable("CREATE TABLE cosmetics (brand VARCHAR(100) NOT NULL,product_type VARCHAR(100) NOT NULL,product_price NUMERIC(10, 2));");
-            let response = yield dbai.ask("Give me name of all brands sorted in ascending order of price");
+            yield dbsenseai.createTable("CREATE TABLE cosmetics (brand VARCHAR(100) NOT NULL,product_type VARCHAR(100) NOT NULL,product_price NUMERIC(10, 2));");
+            let response = yield dbsenseai.ask("Give me name of all brands sorted in ascending order of price");
             console.table(response.table);
             console.log(response.summary);
         }

@@ -31,9 +31,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs = __importStar(require("fs/promises"));
 const openai_1 = require("langchain/embeddings/openai");
@@ -41,24 +38,22 @@ const text_splitter_1 = require("langchain/text_splitter");
 const openai_2 = require("langchain/llms/openai");
 const hnswlib_1 = require("langchain/vectorstores/hnswlib");
 const chains_1 = require("langchain/chains");
-const dotenv_1 = __importDefault(require("dotenv"));
-const pg_1 = require("pg");
-dotenv_1.default.config();
+require('dotenv').config();
 const tables = {};
 let vectorStore;
 const model = new openai_2.OpenAI({});
-const VECTOR_STORE_PATH = "./docs/data.index";
+const VECTOR_STORE_PATH = "dist/docs/data.index";
 const openAIEmbeddings = new openai_1.OpenAIEmbeddings();
 function createTable(sqlQuery) {
     //llm
     sqlQuery.replace(/\n|\+/g, "");
     const tableName = extractTableName(sqlQuery);
     if (tableName) {
-        console.log("Table name:", tableName);
+        // console.log("Table name:", tableName);
         tables[tableName] = sqlQuery;
     }
     else {
-        console.log("Table name not found.");
+        // console.log("Table name not found.");
     }
     console.log(tables);
 }
@@ -87,20 +82,20 @@ function createVectorEmbeddings(tableString) {
         //llm
         const fileExists = yield checkFileExists(VECTOR_STORE_PATH);
         if (fileExists) {
-            console.log("Vector Store Already Exist");
+            // console.log("Vector Store Already Exist");
             vectorStore = yield hnswlib_1.HNSWLib.load(VECTOR_STORE_PATH, openAIEmbeddings);
-            console.log("this is vectorStore", vectorStore);
+            // console.log("this is vectorStore", vectorStore);
         }
         else {
-            console.log("Creating Vector Store");
+            // console.log("Creating Vector Store");
             const textSpiltter = new text_splitter_1.RecursiveCharacterTextSplitter({
                 chunkSize: 1000,
             });
             const docs = yield textSpiltter.createDocuments([tableString]);
             vectorStore = yield hnswlib_1.HNSWLib.fromDocuments(docs, openAIEmbeddings);
             yield vectorStore.save(VECTOR_STORE_PATH);
-            console.log("this is vectorStore", vectorStore);
-            console.log("succesfully create vector store ");
+            // console.log("this is vectorStore", vectorStore);
+            // console.log("succesfully create vector store ");
         }
     });
 }
@@ -119,10 +114,10 @@ function checkFileExists(filePath) {
 function createSqlQueryFromQuestion(question) {
     return __awaiter(this, void 0, void 0, function* () {
         //prompt
-        console.log("createSqlQueryFromQuestion");
+        // console.log("createSqlQueryFromQuestion");
         const fileExists = yield checkFileExists(VECTOR_STORE_PATH);
         if (fileExists) {
-            console.log("Loading Vector Store");
+            // console.log("Loading Vector Store");
             vectorStore = yield hnswlib_1.HNSWLib.load(VECTOR_STORE_PATH, openAIEmbeddings);
             const chain = chains_1.RetrievalQAChain.fromLLM(model, vectorStore.asRetriever());
             const prompt = `
@@ -139,52 +134,21 @@ function createSqlQueryFromQuestion(question) {
             var res = yield chain.call({
                 query: prompt,
             });
-            console.log("response before ->", res);
+            // console.log("response before ->", res);
             // Properly format the SQL query
             res.text = res.text.trim();
             res.text = res.text.replace(/\n+/g, " ");
             res.text = res.text.replace(/\s+/g, " ");
-            console.log("response after ->", res);
+            // console.log("response after ->", res);
             return {
                 res,
             };
         }
     });
 }
-function generateResponseFromDB(query) {
-    return __awaiter(this, void 0, void 0, function* () {
-        //db
-        const client = new pg_1.Client({
-            user: process.env.DB_USER,
-            host: process.env.DB_HOST,
-            database: process.env.DB_DATABASE,
-            password: process.env.DB_PASSWORD,
-            port: 5432,
-        });
-        try {
-            yield client.connect();
-            const result = yield client.query(query);
-            console.log("Query executed successfully!");
-            console.log("Number of rows returned:", result.rowCount);
-            console.log("Command type:", result.command);
-            console.log("Rows:");
-            for (const row of result.rows) {
-                console.log(row);
-            }
-            console.table(result.rows);
-            return result;
-        }
-        catch (err) {
-            console.error("Error executing query:", err);
-        }
-        finally {
-            yield client.end();
-        }
-    });
-}
 function summarizeQuestionwithResponse(question, answer) {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log("Loading Vector Store for summarizer");
+        // console.log("Loading Vector Store for summarizer");
         vectorStore = yield hnswlib_1.HNSWLib.load(VECTOR_STORE_PATH, openAIEmbeddings);
         const chain = chains_1.RetrievalQAChain.fromLLM(model, vectorStore.asRetriever());
         const prompt = `
@@ -199,20 +163,10 @@ function summarizeQuestionwithResponse(question, answer) {
         var res = yield chain.call({
             query: prompt,
         });
-        console.log("Summarized text ->", res.text);
+        // console.log("Summarized text ->", res.text);
         return {
             res,
         };
     });
 }
-(() => __awaiter(void 0, void 0, void 0, function* () {
-    const prompt = "Give me name of all departments who has strength less than 100";
-    const queryResponse = yield createSqlQueryFromQuestion(prompt);
-    if (queryResponse && queryResponse.res && queryResponse.res.text) {
-        const generatedRes = yield generateResponseFromDB(queryResponse.res.text);
-        yield summarizeQuestionwithResponse(prompt, generatedRes.rows);
-    }
-    else {
-        console.log("Query response is invalid");
-    }
-}))();
+console.log = function () { };

@@ -11,7 +11,7 @@ export class DbSenseAi {
     this.dbService = new DBService({
       host: process.env.DB_HOST,
       port: 5432,
-      database: process.env.DB_DATABASE,
+      database: process.env.DB_TYPE,
       user: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
     });
@@ -20,6 +20,7 @@ export class DbSenseAi {
   }
 
   async createTable(createQuery: string): Promise<boolean> {
+    console.log('1')
     return new Promise<boolean>((resolve, reject) => {
       this.llmService
         .createTable(createQuery)

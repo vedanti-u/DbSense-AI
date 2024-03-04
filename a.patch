@@ -1,0 +1,648 @@
+diff --git a/database/DBService.ts b/database/DBService.ts
+index a3b1ccd..c9c33bc 100644
+--- a/database/DBService.ts
++++ b/database/DBService.ts
+@@ -30,7 +30,6 @@ export class DBService {
+           console.log("Query Executed Successfully !");
+           console.log("Number of rows returned:", result.rowCount);
+           console.log("Command type:", result.command);
+-
+           console.log("Rows:");
+ 
+           for (const row of result.rows) {
+@@ -50,3 +49,4 @@ export class DBService {
+     });
+   }
+ }
++
+diff --git a/dist/index.js b/dist/index.js
+index ffe3f77..b9d7d2f 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -19,7 +19,7 @@ class DbSenseAi {
+         this.dbService = new DBService_1.DBService({
+             host: process.env.DB_HOST,
+             port: 5432,
+-            database: process.env.DB_DATABASE,
++            database: process.env.DB_TYPE,
+             user: process.env.DB_USER,
+             password: process.env.DB_PASSWORD,
+         });
+@@ -28,6 +28,7 @@ class DbSenseAi {
+     }
+     createTable(createQuery) {
+         return __awaiter(this, void 0, void 0, function* () {
++            console.log('1');
+             return new Promise((resolve, reject) => {
+                 this.llmService
+                     .createTable(createQuery)
+diff --git a/dist/llm/LLMService.js b/dist/llm/LLMService.js
+index 3aec4b4..72b77e3 100644
+--- a/dist/llm/LLMService.js
++++ b/dist/llm/LLMService.js
+@@ -67,11 +67,11 @@ class LLMService {
+             sqlQueryForTable.replace(/\n|\+/g, "");
+             const tableName = this.extractTableNameFromUpdateQuery(sqlQueryForTable);
+             if (tableName) {
+-                console.log("Table name: ", tableName);
++                // console.log("Table name: ", tableName);
+                 this.tables[tableName] = sqlQueryForTable;
+             }
+             else {
+-                console.log("Table name not found");
++                //console.log("Table name not found");
+             }
+             yield this.deleteFile(this.vectorStorePath);
+             yield this.createVectorEmbeddings(this.tableObjToStringConvertor(this.tables));
+@@ -107,19 +107,19 @@ class LLMService {
+         return __awaiter(this, void 0, void 0, function* () {
+             const fileExists = yield this.checkFileExists(this.vectorStorePath);
+             if (fileExists) {
+-                console.log("Vector Store Already Exist");
++                // console.log("Vector Store Already Exist");
+                 this.vectorStore = yield hnswlib_1.HNSWLib.load(this.vectorStorePath, this.openAIEmbeddings);
+-                console.log("this is vectorStore", this.vectorStore);
++                //console.log("this is vectorStore", this.vectorStore);
+             }
+             else {
+-                console.log("Creating Vector Store");
++                //console.log("Creating Vector Store");
+                 const textSpiltter = new text_splitter_1.RecursiveCharacterTextSplitter({
+                     chunkSize: 1000,
+                 });
+                 const docs = yield textSpiltter.createDocuments([tableString]);
+                 this.vectorStore = yield hnswlib_1.HNSWLib.fromDocuments(docs, this.openAIEmbeddings);
+                 yield this.vectorStore.save(this.vectorStorePath);
+-                console.log("Succesfully create vector store ");
++                // console.log("Succesfully create vector store ");
+             }
+         });
+     }
+@@ -138,7 +138,7 @@ class LLMService {
+         return __awaiter(this, void 0, void 0, function* () {
+             try {
+                 fs.rmSync(filePath, { recursive: true });
+-                console.log("File deleted successfully.");
++                //console.log("File deleted successfully.");
+             }
+             catch (error) {
+                 console.error("Error deleting file:", error);
+diff --git a/dist/prompt/PromptService.js b/dist/prompt/PromptService.js
+index 90dc0ef..0780f02 100644
+--- a/dist/prompt/PromptService.js
++++ b/dist/prompt/PromptService.js
+@@ -45,28 +45,28 @@ class PromptService {
+         this.model = new openai_2.OpenAI({});
+         this.vectorStorePath = "dist/docs/data.index";
+         this.rawData = fs.readFileSync("prompts.json", "utf8");
+-        console.log("rawData", this.rawData);
++        // console.log("rawData", this.rawData);
+         this.jsonData = JSON.parse(this.rawData);
+-        console.log("jsonData", this.jsonData);
++        // console.log("jsonData", this.jsonData);
+     }
+     createSqlQuery(question) {
+         return __awaiter(this, void 0, void 0, function* () {
+-            console.log("createSqlQueryFromQuestion");
++            // console.log("createSqlQueryFromQuestion");
+             const fileExists = yield this.checkFileExists(this.vectorStorePath);
+             if (fileExists) {
+-                console.log("Loading Vector Store");
++                // console.log("Loading Vector Store");
+                 this.vectorStore = yield hnswlib_1.HNSWLib.load(this.vectorStorePath, this.openAIEmbeddings);
+                 const chain = chains_1.RetrievalQAChain.fromLLM(this.model, this.vectorStore.asRetriever());
+                 const prompt = this.parseMessage(this.jsonData.prompt_sql, question);
+-                console.log("This is prompt :", prompt);
++                // console.log("This is prompt :", prompt);
+                 var response = yield chain.call({
+                     query: prompt,
+                 });
+-                console.log("response before ->", response);
++                // console.log("response before ->", response);
+                 response.text = response.text.trim();
+                 response.text = response.text.replace(/\n+/g, " ");
+                 response.text = response.text.replace(/\s+/g, " ");
+-                console.log("response after ->", response);
++                // console.log("response after ->", response);
+                 return {
+                     response,
+                 };
+@@ -86,31 +86,26 @@ class PromptService {
+     }
+     summarizeResponse(question, answer) {
+         return __awaiter(this, void 0, void 0, function* () {
+-            console.log("Loading Vector Store for summarizer");
++            // console.log("Loading Vector Store for summarizer");
+             this.vectorStore = yield hnswlib_1.HNSWLib.load(this.vectorStorePath, this.openAIEmbeddings);
+             const chain = chains_1.RetrievalQAChain.fromLLM(this.model, this.vectorStore.asRetriever());
+             const prompt = this.parseMessage(this.jsonData.prompt_summarize, question, JSON.stringify(answer));
+             var response = yield chain.call({
+                 query: prompt,
+             });
+-            console.log("Summarized text ->", response.text);
+             return {
+                 response,
+             };
+         });
+     }
+     parseMessage(unformatedPrompt, ...args) {
+-        console.log("\nUnformated Prompt :", unformatedPrompt);
+-        console.log("\nthis is args", args);
+         for (var index in args) {
+-            console.log("\nthis is args[index]", args[index]);
+             var stringToReplace = `{${index}}`;
+-            console.log("\nthis is stringtoreplace", stringToReplace);
+             unformatedPrompt = unformatedPrompt.replace(stringToReplace, args[index]);
+-            console.log("\nFormated Prompt: ", unformatedPrompt);
+         }
+         var formatedPrompt = unformatedPrompt;
+         return formatedPrompt;
+     }
+ }
+ exports.PromptService = PromptService;
++console.log = function () { };
+diff --git a/dist/test/localTest.js b/dist/test/localTest.js
+index 2a8dbea..7b81be1 100644
+--- a/dist/test/localTest.js
++++ b/dist/test/localTest.js
+@@ -8,7 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
+         step((generator = generator.apply(thisArg, _arguments || [])).next());
+     });
+ };
+-var DbSenseAi = require('dbsense-ai');
++var DbSenseAi = require("../dist/index.js");
+ const dbsenseai = new DbSenseAi();
+ (function tester() {
+     return __awaiter(this, void 0, void 0, function* () {
+diff --git a/dist/utils/dbutils.js b/dist/utils/dbutils.js
+index cef8dcc..fcd205d 100644
+--- a/dist/utils/dbutils.js
++++ b/dist/utils/dbutils.js
+@@ -38,7 +38,6 @@ const text_splitter_1 = require("langchain/text_splitter");
+ const openai_2 = require("langchain/llms/openai");
+ const hnswlib_1 = require("langchain/vectorstores/hnswlib");
+ const chains_1 = require("langchain/chains");
+-const pg_1 = require("pg");
+ require('dotenv').config();
+ const tables = {};
+ let vectorStore;
+@@ -50,11 +49,11 @@ function createTable(sqlQuery) {
+     sqlQuery.replace(/\n|\+/g, "");
+     const tableName = extractTableName(sqlQuery);
+     if (tableName) {
+-        console.log("Table name:", tableName);
++        // console.log("Table name:", tableName);
+         tables[tableName] = sqlQuery;
+     }
+     else {
+-        console.log("Table name not found.");
++        // console.log("Table name not found.");
+     }
+     console.log(tables);
+ }
+@@ -83,20 +82,20 @@ function createVectorEmbeddings(tableString) {
+         //llm
+         const fileExists = yield checkFileExists(VECTOR_STORE_PATH);
+         if (fileExists) {
+-            console.log("Vector Store Already Exist");
++            // console.log("Vector Store Already Exist");
+             vectorStore = yield hnswlib_1.HNSWLib.load(VECTOR_STORE_PATH, openAIEmbeddings);
+-            console.log("this is vectorStore", vectorStore);
++            // console.log("this is vectorStore", vectorStore);
+         }
+         else {
+-            console.log("Creating Vector Store");
++            // console.log("Creating Vector Store");
+             const textSpiltter = new text_splitter_1.RecursiveCharacterTextSplitter({
+                 chunkSize: 1000,
+             });
+             const docs = yield textSpiltter.createDocuments([tableString]);
+             vectorStore = yield hnswlib_1.HNSWLib.fromDocuments(docs, openAIEmbeddings);
+             yield vectorStore.save(VECTOR_STORE_PATH);
+-            console.log("this is vectorStore", vectorStore);
+-            console.log("succesfully create vector store ");
++            // console.log("this is vectorStore", vectorStore);
++            // console.log("succesfully create vector store ");
+         }
+     });
+ }
+@@ -115,10 +114,10 @@ function checkFileExists(filePath) {
+ function createSqlQueryFromQuestion(question) {
+     return __awaiter(this, void 0, void 0, function* () {
+         //prompt
+-        console.log("createSqlQueryFromQuestion");
++        // console.log("createSqlQueryFromQuestion");
+         const fileExists = yield checkFileExists(VECTOR_STORE_PATH);
+         if (fileExists) {
+-            console.log("Loading Vector Store");
++            // console.log("Loading Vector Store");
+             vectorStore = yield hnswlib_1.HNSWLib.load(VECTOR_STORE_PATH, openAIEmbeddings);
+             const chain = chains_1.RetrievalQAChain.fromLLM(model, vectorStore.asRetriever());
+             const prompt = `
+@@ -135,52 +134,21 @@ function createSqlQueryFromQuestion(question) {
+             var res = yield chain.call({
+                 query: prompt,
+             });
+-            console.log("response before ->", res);
++            // console.log("response before ->", res);
+             // Properly format the SQL query
+             res.text = res.text.trim();
+             res.text = res.text.replace(/\n+/g, " ");
+             res.text = res.text.replace(/\s+/g, " ");
+-            console.log("response after ->", res);
++            // console.log("response after ->", res);
+             return {
+                 res,
+             };
+         }
+     });
+ }
+-function generateResponseFromDB(query) {
+-    return __awaiter(this, void 0, void 0, function* () {
+-        //db
+-        const client = new pg_1.Client({
+-            user: process.env.DB_USER,
+-            host: process.env.DB_HOST,
+-            database: process.env.DB_DATABASE,
+-            password: process.env.DB_PASSWORD,
+-            port: 5432,
+-        });
+-        try {
+-            yield client.connect();
+-            const result = yield client.query(query);
+-            console.log("Query executed successfully!");
+-            console.log("Number of rows returned:", result.rowCount);
+-            console.log("Command type:", result.command);
+-            console.log("Rows:");
+-            for (const row of result.rows) {
+-                console.log(row);
+-            }
+-            console.table(result.rows);
+-            return result;
+-        }
+-        catch (err) {
+-            console.error("Error executing query:", err);
+-        }
+-        finally {
+-            yield client.end();
+-        }
+-    });
+-}
+ function summarizeQuestionwithResponse(question, answer) {
+     return __awaiter(this, void 0, void 0, function* () {
+-        console.log("Loading Vector Store for summarizer");
++        // console.log("Loading Vector Store for summarizer");
+         vectorStore = yield hnswlib_1.HNSWLib.load(VECTOR_STORE_PATH, openAIEmbeddings);
+         const chain = chains_1.RetrievalQAChain.fromLLM(model, vectorStore.asRetriever());
+         const prompt = `
+@@ -195,20 +163,10 @@ function summarizeQuestionwithResponse(question, answer) {
+         var res = yield chain.call({
+             query: prompt,
+         });
+-        console.log("Summarized text ->", res.text);
++        // console.log("Summarized text ->", res.text);
+         return {
+             res,
+         };
+     });
+ }
+-(() => __awaiter(void 0, void 0, void 0, function* () {
+-    const prompt = "Give me name of all departments who has strength less than 100";
+-    const queryResponse = yield createSqlQueryFromQuestion(prompt);
+-    if (queryResponse && queryResponse.res && queryResponse.res.text) {
+-        const generatedRes = yield generateResponseFromDB(queryResponse.res.text);
+-        yield summarizeQuestionwithResponse(prompt, generatedRes.rows);
+-    }
+-    else {
+-        console.log("Query response is invalid");
+-    }
+-}))();
++console.log = function () { };
+diff --git a/index.ts b/index.ts
+index bdfb277..16b7318 100644
+--- a/index.ts
++++ b/index.ts
+@@ -11,7 +11,7 @@ export class DbSenseAi {
+     this.dbService = new DBService({
+       host: process.env.DB_HOST,
+       port: 5432,
+-      database: process.env.DB_DATABASE,
++      database: process.env.DB_TYPE,
+       user: process.env.DB_USER,
+       password: process.env.DB_PASSWORD,
+     });
+@@ -20,6 +20,7 @@ export class DbSenseAi {
+   }
+ 
+   async createTable(createQuery: string): Promise<boolean> {
++    console.log('1')
+     return new Promise<boolean>((resolve, reject) => {
+       this.llmService
+         .createTable(createQuery)
+diff --git a/llm/LLMService.ts b/llm/LLMService.ts
+index 0ae9ffa..4573dad 100644
+--- a/llm/LLMService.ts
++++ b/llm/LLMService.ts
+@@ -24,7 +24,7 @@ export class LLMService {
+     sqlQueryForTable.replace(/\n|\+/g, "");
+     const tableName = this.extractTableNameFromCreateQuery(sqlQueryForTable);
+     if (tableName) {
+-      console.log("Table name: ", tableName);
++     console.log("Table name: ", tableName);
+       this.tables[tableName] = sqlQueryForTable;
+     } else {
+       console.log("Table name not found");
+@@ -40,10 +40,10 @@ export class LLMService {
+     sqlQueryForTable.replace(/\n|\+/g, "");
+     const tableName = this.extractTableNameFromUpdateQuery(sqlQueryForTable);
+     if (tableName) {
+-      console.log("Table name: ", tableName);
++     // console.log("Table name: ", tableName);
+       this.tables[tableName] = sqlQueryForTable;
+     } else {
+-      console.log("Table name not found");
++      //console.log("Table name not found");
+     }
+     await this.deleteFile(this.vectorStorePath);
+     await this.createVectorEmbeddings(
+@@ -92,14 +92,14 @@ export class LLMService {
+     );
+ 
+     if (fileExists) {
+-      console.log("Vector Store Already Exist");
++     // console.log("Vector Store Already Exist");
+       this.vectorStore = await HNSWLib.load(
+         this.vectorStorePath,
+         this.openAIEmbeddings
+       );
+-      console.log("this is vectorStore", this.vectorStore);
++      //console.log("this is vectorStore", this.vectorStore);
+     } else {
+-      console.log("Creating Vector Store");
++      //console.log("Creating Vector Store");
+ 
+       const textSpiltter = new RecursiveCharacterTextSplitter({
+         chunkSize: 1000,
+@@ -110,7 +110,7 @@ export class LLMService {
+         this.openAIEmbeddings
+       );
+       await this.vectorStore.save(this.vectorStorePath);
+-      console.log("Succesfully create vector store ");
++     // console.log("Succesfully create vector store ");
+     }
+   }
+ 
+@@ -125,7 +125,7 @@ export class LLMService {
+   async deleteFile(filePath: string): Promise<void> {
+     try {
+       fs.rmSync(filePath, { recursive: true });
+-      console.log("File deleted successfully.");
++      //console.log("File deleted successfully.");
+     } catch (error) {
+       console.error("Error deleting file:", error);
+     }
+diff --git a/prompt/PromptService.ts b/prompt/PromptService.ts
+index 356f4d0..24ae3fa 100644
+--- a/prompt/PromptService.ts
++++ b/prompt/PromptService.ts
+@@ -19,19 +19,19 @@ export class PromptService {
+     this.model = new OpenAI({});
+     this.vectorStorePath = "dist/docs/data.index";
+     this.rawData = fs.readFileSync("prompts.json", "utf8");
+-    console.log("rawData", this.rawData);
++    // console.log("rawData", this.rawData);
+     this.jsonData = JSON.parse(this.rawData);
+-    console.log("jsonData", this.jsonData);
++    // console.log("jsonData", this.jsonData);
+   }
+ 
+   async createSqlQuery(question: string) {
+-    console.log("createSqlQueryFromQuestion");
++    // console.log("createSqlQueryFromQuestion");
+     const fileExists: boolean = await this.checkFileExists(
+       this.vectorStorePath
+     );
+ 
+     if (fileExists) {
+-      console.log("Loading Vector Store");
++      // console.log("Loading Vector Store");
+       this.vectorStore = await HNSWLib.load(
+         this.vectorStorePath,
+         this.openAIEmbeddings
+@@ -42,16 +42,16 @@ export class PromptService {
+       );
+ 
+       const prompt = this.parseMessage(this.jsonData.prompt_sql, question);
+-      console.log("This is prompt :", prompt);
++      // console.log("This is prompt :", prompt);
+       var response = await chain.call({
+         query: prompt,
+       });
+ 
+-      console.log("response before ->", response);
++      // console.log("response before ->", response);
+       response.text = response.text.trim();
+       response.text = response.text.replace(/\n+/g, " ");
+       response.text = response.text.replace(/\s+/g, " ");
+-      console.log("response after ->", response);
++      // console.log("response after ->", response);
+       return {
+         response,
+       };
+@@ -68,7 +68,7 @@ export class PromptService {
+   }
+ 
+   async summarizeResponse(question: string, answer: any) {
+-    console.log("Loading Vector Store for summarizer");
++    // console.log("Loading Vector Store for summarizer");
+     this.vectorStore = await HNSWLib.load(
+       this.vectorStorePath,
+       this.openAIEmbeddings
+@@ -86,7 +86,6 @@ export class PromptService {
+       query: prompt,
+     });
+ 
+-    console.log("Summarized text ->", response.text);
+     return {
+       response,
+     };
+@@ -96,16 +95,13 @@ export class PromptService {
+     unformatedPrompt: string,
+     ...args: string[]
+   ): string | undefined {
+-    console.log("\nUnformated Prompt :", unformatedPrompt);
+-    console.log("\nthis is args", args);
++
+     for (var index in args) {
+-      console.log("\nthis is args[index]", args[index]);
+       var stringToReplace = `{${index}}`;
+-      console.log("\nthis is stringtoreplace", stringToReplace);
+       unformatedPrompt = unformatedPrompt.replace(stringToReplace, args[index]);
+-      console.log("\nFormated Prompt: ", unformatedPrompt);
+     }
+     var formatedPrompt: string = unformatedPrompt;
+     return formatedPrompt;
+   }
+ }
++console.log=function(){}
+diff --git a/test/localTest.ts b/test/localTest.ts
+index 6a32b42..1a6e632 100644
+--- a/test/localTest.ts
++++ b/test/localTest.ts
+@@ -1,12 +1,12 @@
+-var  DbSenseAi  = require('dbsense-ai')
++var   DbSenseAi =require("dbsense-ai");
+ 
+ const dbsenseai = new DbSenseAi();
+ 
+ (async function tester() {
+   try {
+-    await dbsenseai.createTable(
+-      "CREATE TABLE cosmetics (brand VARCHAR(100) NOT NULL,product_type VARCHAR(100) NOT NULL,product_price NUMERIC(10, 2));"
+-    );
++    // await dbsenseai.createTable(
++    //   "CREATE TABLE cosmetics (brand VARCHAR(100) NOT NULL,product_type VARCHAR(100) NOT NULL,product_price NUMERIC(10, 2));"
++    // );
+     let response = await dbsenseai.ask(
+       "Give me name of all brands sorted in ascending order of price"
+     );
+diff --git a/utils/dbutils.ts b/utils/dbutils.ts
+index 74f5343..d857bcc 100644
+--- a/utils/dbutils.ts
++++ b/utils/dbutils.ts
+@@ -22,10 +22,10 @@ function createTable(sqlQuery: string): void {
+   sqlQuery.replace(/\n|\+/g, "");
+   const tableName = extractTableName(sqlQuery);
+   if (tableName) {
+-    console.log("Table name:", tableName);
++    // console.log("Table name:", tableName);
+     tables[tableName] = sqlQuery;
+   } else {
+-    console.log("Table name not found.");
++    // console.log("Table name not found.");
+   }
+   console.log(tables);
+ }
+@@ -57,11 +57,11 @@ async function createVectorEmbeddings(tableString: string) {
+   const fileExists: boolean = await checkFileExists(VECTOR_STORE_PATH);
+ 
+   if (fileExists) {
+-    console.log("Vector Store Already Exist");
++    // console.log("Vector Store Already Exist");
+     vectorStore = await HNSWLib.load(VECTOR_STORE_PATH, openAIEmbeddings);
+-    console.log("this is vectorStore", vectorStore);
++    // console.log("this is vectorStore", vectorStore);
+   } else {
+-    console.log("Creating Vector Store");
++    // console.log("Creating Vector Store");
+ 
+     const textSpiltter = new RecursiveCharacterTextSplitter({
+       chunkSize: 1000,
+@@ -69,8 +69,8 @@ async function createVectorEmbeddings(tableString: string) {
+     const docs = await textSpiltter.createDocuments([tableString]);
+     vectorStore = await HNSWLib.fromDocuments(docs, openAIEmbeddings);
+     await vectorStore.save(VECTOR_STORE_PATH);
+-    console.log("this is vectorStore", vectorStore);
+-    console.log("succesfully create vector store ");
++    // console.log("this is vectorStore", vectorStore);
++    // console.log("succesfully create vector store ");
+   }
+ }
+ 
+@@ -86,11 +86,11 @@ async function checkFileExists(filePath: string): Promise<boolean> {
+ 
+ async function createSqlQueryFromQuestion(question: string) {
+   //prompt
+-  console.log("createSqlQueryFromQuestion");
++  // console.log("createSqlQueryFromQuestion");
+   const fileExists: boolean = await checkFileExists(VECTOR_STORE_PATH);
+ 
+   if (fileExists) {
+-    console.log("Loading Vector Store");
++    // console.log("Loading Vector Store");
+     vectorStore = await HNSWLib.load(VECTOR_STORE_PATH, openAIEmbeddings);
+     const chain = RetrievalQAChain.fromLLM(model, vectorStore.asRetriever());
+     const prompt = `
+@@ -108,54 +108,22 @@ async function createSqlQueryFromQuestion(question: string) {
+       query: prompt,
+     });
+ 
+-    console.log("response before ->", res);
++    // console.log("response before ->", res);
+     // Properly format the SQL query
+     res.text = res.text.trim();
+     res.text = res.text.replace(/\n+/g, " ");
+     res.text = res.text.replace(/\s+/g, " ");
+-    console.log("response after ->", res);
++    // console.log("response after ->", res);
+     return {
+       res,
+     };
+   }
+ }
+ 
+-async function generateResponseFromDB(query: string) {
+-  //db
+-  const client = new Client({
+-    user: process.env.DB_USER,
+-    host: process.env.DB_HOST,
+-    database: process.env.DB_DATABASE,
+-    password: process.env.DB_PASSWORD,
+-    port: 5432,
+-  });
+-
+-  try {
+-    await client.connect();
+-
+-    const result: QueryResult = await client.query(query);
+-
+-    console.log("Query executed successfully!");
+-    console.log("Number of rows returned:", result.rowCount);
+-    console.log("Command type:", result.command);
+-
+-    console.log("Rows:");
+ 
+-    for (const row of result.rows) {
+-      console.log(row);
+-    }
+-
+-    console.table(result.rows);
+-    return result;
+-  } catch (err) {
+-    console.error("Error executing query:", err);
+-  } finally {
+-    await client.end();
+-  }
+-}
+ 
+ async function summarizeQuestionwithResponse(question: string, answer: string) {
+-  console.log("Loading Vector Store for summarizer");
++  // console.log("Loading Vector Store for summarizer");
+   vectorStore = await HNSWLib.load(VECTOR_STORE_PATH, openAIEmbeddings);
+   const chain = RetrievalQAChain.fromLLM(model, vectorStore.asRetriever());
+   const prompt = `
+@@ -171,22 +139,10 @@ async function summarizeQuestionwithResponse(question: string, answer: string) {
+     query: prompt,
+   });
+ 
+-  console.log("Summarized text ->", res.text);
++  // console.log("Summarized text ->", res.text);
+   return {
+     res,
+   };
+ }
+ 
+-(async () => {
+-  const prompt: string =
+-    "Give me name of all departments who has strength less than 100";
+-  const queryResponse = await createSqlQueryFromQuestion(prompt);
+-  if (queryResponse && queryResponse.res && queryResponse.res.text) {
+-    const generatedRes: any = await generateResponseFromDB(
+-      queryResponse.res.text
+-    );
+-    await summarizeQuestionwithResponse(prompt, generatedRes.rows);
+-  } else {
+-    console.log("Query response is invalid");
+-  }
+-})();
++console.log=function(){}

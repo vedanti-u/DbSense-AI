@@ -31,9 +31,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LLMService = void 0;
 const fs = __importStar(require("fs"));
@@ -41,14 +38,13 @@ const openai_1 = require("langchain/embeddings/openai");
 const text_splitter_1 = require("langchain/text_splitter");
 const openai_2 = require("@langchain/openai");
 const hnswlib_1 = require("langchain/vectorstores/hnswlib");
-const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config();
+require('dotenv').config();
 class LLMService {
     constructor() {
         this.tables = {};
         this.openAIEmbeddings = new openai_1.OpenAIEmbeddings();
         this.model = new openai_2.OpenAI({});
-        this.vectorStorePath = "./docs/data.index";
+        this.vectorStorePath = "dist/docs/data.index";
     }
     createTable(sqlQueryForTable) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -71,11 +67,11 @@ class LLMService {
             sqlQueryForTable.replace(/\n|\+/g, "");
             const tableName = this.extractTableNameFromUpdateQuery(sqlQueryForTable);
             if (tableName) {
-                console.log("Table name: ", tableName);
+                // console.log("Table name: ", tableName);
                 this.tables[tableName] = sqlQueryForTable;
             }
             else {
-                console.log("Table name not found");
+                //console.log("Table name not found");
             }
             yield this.deleteFile(this.vectorStorePath);
             yield this.createVectorEmbeddings(this.tableObjToStringConvertor(this.tables));
@@ -111,19 +107,19 @@ class LLMService {
         return __awaiter(this, void 0, void 0, function* () {
             const fileExists = yield this.checkFileExists(this.vectorStorePath);
             if (fileExists) {
-                console.log("Vector Store Already Exist");
+                // console.log("Vector Store Already Exist");
                 this.vectorStore = yield hnswlib_1.HNSWLib.load(this.vectorStorePath, this.openAIEmbeddings);
-                console.log("this is vectorStore", this.vectorStore);
+                //console.log("this is vectorStore", this.vectorStore);
             }
             else {
-                console.log("Creating Vector Store");
+                //console.log("Creating Vector Store");
                 const textSpiltter = new text_splitter_1.RecursiveCharacterTextSplitter({
                     chunkSize: 1000,
                 });
                 const docs = yield textSpiltter.createDocuments([tableString]);
                 this.vectorStore = yield hnswlib_1.HNSWLib.fromDocuments(docs, this.openAIEmbeddings);
                 yield this.vectorStore.save(this.vectorStorePath);
-                console.log("Succesfully create vector store ");
+                // console.log("Succesfully create vector store ");
             }
         });
     }
@@ -142,7 +138,7 @@ class LLMService {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 fs.rmSync(filePath, { recursive: true });
-                console.log("File deleted successfully.");
+                //console.log("File deleted successfully.");
             }
             catch (error) {
                 console.error("Error deleting file:", error);

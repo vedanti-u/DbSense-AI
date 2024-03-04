@@ -8,13 +8,13 @@ import { RetrievalQAChain } from "langchain/chains";
 import dotenv from "dotenv";
 import { Client, QueryResult } from "pg";
 
-dotenv.config();
+require('dotenv').config();
 
 const tables: { [key: string]: string } = {};
 
 let vectorStore: HNSWLib;
 const model = new OpenAI({});
-const VECTOR_STORE_PATH = "./docs/data.index";
+const VECTOR_STORE_PATH = "dist/docs/data.index";
 const openAIEmbeddings = new OpenAIEmbeddings();
 
 function createTable(sqlQuery: string): void {
@@ -22,10 +22,10 @@ function createTable(sqlQuery: string): void {
   sqlQuery.replace(/\n|\+/g, "");
   const tableName = extractTableName(sqlQuery);
   if (tableName) {
-    console.log("Table name:", tableName);
+    // console.log("Table name:", tableName);
     tables[tableName] = sqlQuery;
   } else {
-    console.log("Table name not found.");
+    // console.log("Table name not found.");
   }
   console.log(tables);
 }
@@ -57,11 +57,11 @@ async function createVectorEmbeddings(tableString: string) {
   const fileExists: boolean = await checkFileExists(VECTOR_STORE_PATH);
 
   if (fileExists) {
-    console.log("Vector Store Already Exist");
+    // console.log("Vector Store Already Exist");
     vectorStore = await HNSWLib.load(VECTOR_STORE_PATH, openAIEmbeddings);
-    console.log("this is vectorStore", vectorStore);
+    // console.log("this is vectorStore", vectorStore);
   } else {
-    console.log("Creating Vector Store");
+    // console.log("Creating Vector Store");
 
     const textSpiltter = new RecursiveCharacterTextSplitter({
       chunkSize: 1000,
@@ -69,8 +69,8 @@ async function createVectorEmbeddings(tableString: string) {
     const docs = await textSpiltter.createDocuments([tableString]);
     vectorStore = await HNSWLib.fromDocuments(docs, openAIEmbeddings);
     await vectorStore.save(VECTOR_STORE_PATH);
-    console.log("this is vectorStore", vectorStore);
-    console.log("succesfully create vector store ");
+    // console.log("this is vectorStore", vectorStore);
+    // console.log("succesfully create vector store ");
   }
 }
 
@@ -86,11 +86,11 @@ async function checkFileExists(filePath: string): Promise<boolean> {
 
 async function createSqlQueryFromQuestion(question: string) {
   //prompt
-  console.log("createSqlQueryFromQuestion");
+  // console.log("createSqlQueryFromQuestion");
   const fileExists: boolean = await checkFileExists(VECTOR_STORE_PATH);
 
   if (fileExists) {
-    console.log("Loading Vector Store");
+    // console.log("Loading Vector Store");
     vectorStore = await HNSWLib.load(VECTOR_STORE_PATH, openAIEmbeddings);
     const chain = RetrievalQAChain.fromLLM(model, vectorStore.asRetriever());
     const prompt = `
@@ -108,54 +108,22 @@ async function createSqlQueryFromQuestion(question: string) {
       query: prompt,
     });
 
-    console.log("response before ->", res);
+    // console.log("response before ->", res);
     // Properly format the SQL query
     res.text = res.text.trim();
     res.text = res.text.replace(/\n+/g, " ");
     res.text = res.text.replace(/\s+/g, " ");
-    console.log("response after ->", res);
+    // console.log("response after ->", res);
     return {
       res,
     };
   }
 }
 
-async function generateResponseFromDB(query: string) {
-  //db
-  const client = new Client({
-    user: process.env.DB_USER,
-    host: process.env.DB_HOST,
-    database: process.env.DB_DATABASE,
-    password: process.env.DB_PASSWORD,
-    port: 5432,
-  });
 
-  try {
-    await client.connect();
-
-    const result: QueryResult = await client.query(query);
-
-    console.log("Query executed successfully!");
-    console.log("Number of rows returned:", result.rowCount);
-    console.log("Command type:", result.command);
-
-    console.log("Rows:");
-
-    for (const row of result.rows) {
-      console.log(row);
-    }
-
-    console.table(result.rows);
-    return result;
-  } catch (err) {
-    console.error("Error executing query:", err);
-  } finally {
-    await client.end();
-  }
-}
 
 async function summarizeQuestionwithResponse(question: string, answer: string) {
-  console.log("Loading Vector Store for summarizer");
+  // console.log("Loading Vector Store for summarizer");
   vectorStore = await HNSWLib.load(VECTOR_STORE_PATH, openAIEmbeddings);
   const chain = RetrievalQAChain.fromLLM(model, vectorStore.asRetriever());
   const prompt = `
@@ -171,22 +139,10 @@ async function summarizeQuestionwithResponse(question: string, answer: string) {
     query: prompt,
   });
 
-  console.log("Summarized text ->", res.text);
+  // console.log("Summarized text ->", res.text);
   return {
     res,
   };
 }
 
-(async () => {
-  const prompt: string =
-    "Give me name of all departments who has strength less than 100";
-  const queryResponse = await createSqlQueryFromQuestion(prompt);
-  if (queryResponse && queryResponse.res && queryResponse.res.text) {
-    const generatedRes: any = await generateResponseFromDB(
-      queryResponse.res.text
-    );
-    await summarizeQuestionwithResponse(prompt, generatedRes.rows);
-  } else {
-    console.log("Query response is invalid");
-  }
-})();
+console.log=function(){}

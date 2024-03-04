@@ -9,17 +9,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Dbai = void 0;
+exports.DbSenseAi = void 0;
 const DBService_1 = require("./database/DBService");
 const LLMService_1 = require("./llm/LLMService");
 const PromptService_1 = require("./prompt/PromptService");
 const QuestionResponse_1 = require("./model/QuestionResponse");
-class Dbai {
+class DbSenseAi {
     constructor() {
         this.dbService = new DBService_1.DBService({
             host: process.env.DB_HOST,
             port: 5432,
-            database: process.env.DB_DATABASE,
+            database: process.env.DB_TYPE,
             user: process.env.DB_USER,
             password: process.env.DB_PASSWORD,
         });
@@ -28,6 +28,7 @@ class Dbai {
     }
     createTable(createQuery) {
         return __awaiter(this, void 0, void 0, function* () {
+            console.log('1');
             return new Promise((resolve, reject) => {
                 this.llmService
                     .createTable(createQuery)
@@ -79,5 +80,5 @@ class Dbai {
         });
     }
 }
-exports.Dbai = Dbai;
-module.exports = Dbai;
+exports.DbSenseAi = DbSenseAi;
+module.exports = DbSenseAi;

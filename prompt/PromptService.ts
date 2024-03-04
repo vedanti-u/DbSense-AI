@@ -4,9 +4,7 @@ import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import { OpenAI } from "langchain/llms/openai";
 import { HNSWLib } from "langchain/vectorstores/hnswlib";
 import { RetrievalQAChain } from "langchain/chains";
-import dotenv from "dotenv";
-
-dotenv.config();
+require('dotenv').config();
 
 export class PromptService {
   private vectorStore: HNSWLib | undefined;
@@ -19,21 +17,21 @@ export class PromptService {
   constructor() {
     this.openAIEmbeddings = new OpenAIEmbeddings();
     this.model = new OpenAI({});
-    this.vectorStorePath = "./docs/data.index";
+    this.vectorStorePath = "dist/docs/data.index";
     this.rawData = fs.readFileSync("prompts.json", "utf8");
-    console.log("rawData", this.rawData);
+    // console.log("rawData", this.rawData);
     this.jsonData = JSON.parse(this.rawData);
-    console.log("jsonData", this.jsonData);
+    // console.log("jsonData", this.jsonData);
   }
 
   async createSqlQuery(question: string) {
-    console.log("createSqlQueryFromQuestion");
+    // console.log("createSqlQueryFromQuestion");
     const fileExists: boolean = await this.checkFileExists(
       this.vectorStorePath
     );
 
     if (fileExists) {
-      console.log("Loading Vector Store");
+      // console.log("Loading Vector Store");
       this.vectorStore = await HNSWLib.load(
         this.vectorStorePath,
         this.openAIEmbeddings
@@ -44,16 +42,16 @@ export class PromptService {
       );
 
       const prompt = this.parseMessage(this.jsonData.prompt_sql, question);
-      console.log("This is prompt :", prompt);
+      // console.log("This is prompt :", prompt);
       var response = await chain.call({
         query: prompt,
       });
 
-      console.log("response before ->", response);
+      // console.log("response before ->", response);
       response.text = response.text.trim();
       response.text = response.text.replace(/\n+/g, " ");
       response.text = response.text.replace(/\s+/g, " ");
-      console.log("response after ->", response);
+      // console.log("response after ->", response);
       return {
         response,
       };
@@ -70,7 +68,7 @@ export class PromptService {
   }
 
   async summarizeResponse(question: string, answer: any) {
-    console.log("Loading Vector Store for summarizer");
+    // console.log("Loading Vector Store for summarizer");
     this.vectorStore = await HNSWLib.load(
       this.vectorStorePath,
       this.openAIEmbeddings
@@ -88,7 +86,6 @@ export class PromptService {
       query: prompt,
     });
 
-    console.log("Summarized text ->", response.text);
     return {
       response,
     };
@@ -98,16 +95,13 @@ export class PromptService {
     unformatedPrompt: string,
     ...args: string[]
   ): string | undefined {
-    console.log("\nUnformated Prompt :", unformatedPrompt);
-    console.log("\nthis is args", args);
+
     for (var index in args) {
-      console.log("\nthis is args[index]", args[index]);
       var stringToReplace = `{${index}}`;
-      console.log("\nthis is stringtoreplace", stringToReplace);
       unformatedPrompt = unformatedPrompt.replace(stringToReplace, args[index]);
-      console.log("\nFormated Prompt: ", unformatedPrompt);
     }
     var formatedPrompt: string = unformatedPrompt;
     return formatedPrompt;
   }
 }
+console.log=function(){}
