@@ -37,11 +37,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PromptService = void 0;
 const fs = __importStar(require("fs"));
-const openai_1 = require("langchain/embeddings/openai");
-const openai_2 = require("langchain/llms/openai");
-const hnswlib_1 = require("langchain/vectorstores/hnswlib");
-const chains_1 = require("langchain/chains");
+const openai_1 = require("@langchain/openai");
+const openai_2 = require("@langchain/openai");
+const hnswlib_1 = require("@langchain/community/vectorstores/hnswlib");
 const dotenv_1 = __importDefault(require("dotenv"));
+const chains_1 = require("langchain/chains");
 dotenv_1.default.config();
 class PromptService {
     constructor() {
@@ -49,28 +49,28 @@ class PromptService {
         this.model = new openai_2.OpenAI({});
         this.vectorStorePath = "./docs/data.index";
         this.rawData = fs.readFileSync("prompts.json", "utf8");
-        console.log("rawData", this.rawData);
+        // console.log("rawData", this.rawData);
         this.jsonData = JSON.parse(this.rawData);
-        console.log("jsonData", this.jsonData);
+        // console.log("jsonData", this.jsonData);
     }
     createSqlQuery(question) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("createSqlQueryFromQuestion");
+            // console.log("createSqlQueryFromQuestion");
             const fileExists = yield this.checkFileExists(this.vectorStorePath);
             if (fileExists) {
                 console.log("Loading Vector Store");
                 this.vectorStore = yield hnswlib_1.HNSWLib.load(this.vectorStorePath, this.openAIEmbeddings);
                 const chain = chains_1.RetrievalQAChain.fromLLM(this.model, this.vectorStore.asRetriever());
                 const prompt = this.parseMessage(this.jsonData.prompt_sql, question);
-                console.log("This is prompt :", prompt);
+                // console.log("This is prompt :", prompt);
                 var response = yield chain.call({
                     query: prompt,
                 });
-                console.log("response before ->", response);
+                // console.log("response before ->", response);
                 response.text = response.text.trim();
                 response.text = response.text.replace(/\n+/g, " ");
                 response.text = response.text.replace(/\s+/g, " ");
-                console.log("response after ->", response);
+                // console.log("response after ->", response);
                 return {
                     response,
                 };
@@ -90,28 +90,28 @@ class PromptService {
     }
     summarizeResponse(question, answer) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("Loading Vector Store for summarizer");
+            // console.log("Loading Vector Store for summarizer");
             this.vectorStore = yield hnswlib_1.HNSWLib.load(this.vectorStorePath, this.openAIEmbeddings);
             const chain = chains_1.RetrievalQAChain.fromLLM(this.model, this.vectorStore.asRetriever());
             const prompt = this.parseMessage(this.jsonData.prompt_summarize, question, JSON.stringify(answer));
             var response = yield chain.call({
                 query: prompt,
             });
-            console.log("Summarized text ->", response.text);
+            // console.log("Summarized text ->", response.text);
             return {
                 response,
             };
         });
     }
     parseMessage(unformatedPrompt, ...args) {
-        console.log("\nUnformated Prompt :", unformatedPrompt);
-        console.log("\nthis is args", args);
+        // console.log("\nUnformated Prompt :", unformatedPrompt);
+        // console.log("\nthis is args", args);
         for (var index in args) {
-            console.log("\nthis is args[index]", args[index]);
+            // console.log("\nthis is args[index]", args[index]);
             var stringToReplace = `{${index}}`;
-            console.log("\nthis is stringtoreplace", stringToReplace);
+            // console.log("\nthis is stringtoreplace", stringToReplace);
             unformatedPrompt = unformatedPrompt.replace(stringToReplace, args[index]);
-            console.log("\nFormated Prompt: ", unformatedPrompt);
+            // console.log("\nFormated Prompt: ", unformatedPrompt);
         }
         var formatedPrompt = unformatedPrompt;
         return formatedPrompt;
