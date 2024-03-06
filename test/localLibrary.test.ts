@@ -1,4 +1,4 @@
-import { DbSenseAi } from "../index";
+var DbSenseAi =require( "dbsense-ai");
 
 const dbsenseai = new DbSenseAi();
 
