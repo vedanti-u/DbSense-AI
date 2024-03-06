@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 var   DbSenseAi =require("dbsense-ai");
+=======
+var  DbSenseAi = require("dbsense-ai");
+>>>>>>> Stashed changes
 
 const dbsenseai = new DbSenseAi();
 

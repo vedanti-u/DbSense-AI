@@ -34,11 +34,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PromptService = void 0;
 const fs = __importStar(require("fs"));
+<<<<<<< Updated upstream
 const openai_1 = require("langchain/embeddings/openai");
 const openai_2 = require("langchain/llms/openai");
 const hnswlib_1 = require("langchain/vectorstores/hnswlib");
 const chains_1 = require("langchain/chains");
 require('dotenv').config();
+=======
+const openai_1 = require("@langchain/openai");
+const openai_2 = require("@langchain/openai");
+const hnswlib_1 = require("@langchain/community/vectorstores/hnswlib");
+const dotenv_1 = __importDefault(require("dotenv"));
+const chains_1 = require("langchain/chains");
+dotenv_1.default.config();
+>>>>>>> Stashed changes
 class PromptService {
     constructor() {
         this.openAIEmbeddings = new openai_1.OpenAIEmbeddings();
@@ -93,15 +102,30 @@ class PromptService {
             var response = yield chain.call({
                 query: prompt,
             });
+<<<<<<< Updated upstream
+=======
+            // console.log("Summarized text ->", response.text);
+>>>>>>> Stashed changes
             return {
                 response,
             };
         });
     }
     parseMessage(unformatedPrompt, ...args) {
+<<<<<<< Updated upstream
         for (var index in args) {
             var stringToReplace = `{${index}}`;
             unformatedPrompt = unformatedPrompt.replace(stringToReplace, args[index]);
+=======
+        // console.log("\nUnformated Prompt :", unformatedPrompt);
+        // console.log("\nthis is args", args);
+        for (var index in args) {
+            // console.log("\nthis is args[index]", args[index]);
+            var stringToReplace = `{${index}}`;
+            // console.log("\nthis is stringtoreplace", stringToReplace);
+            unformatedPrompt = unformatedPrompt.replace(stringToReplace, args[index]);
+            // console.log("\nFormated Prompt: ", unformatedPrompt);
+>>>>>>> Stashed changes
         }
         var formatedPrompt = unformatedPrompt;
         return formatedPrompt;

@@ -27,7 +27,7 @@ function createTable(sqlQuery: string): void {
   } else {
     // console.log("Table name not found.");
   }
-  console.log(tables);
+  // console.log(tables);
 }
 
 function extractTableName(sqlQuery: string): string | null {

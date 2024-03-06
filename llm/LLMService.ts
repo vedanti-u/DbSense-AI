@@ -1,10 +1,16 @@
 import * as fs from "fs";
-import { OpenAIEmbeddings } from "langchain/embeddings/openai";
+import { OpenAIEmbeddings } from "@langchain/openai";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import { OpenAI } from "@langchain/openai";
+<<<<<<< Updated upstream
 import { HNSWLib } from "langchain/vectorstores/hnswlib";
 require('dotenv').config();
 
+=======
+import { HNSWLib } from "@langchain/community/vectorstores/hnswlib";
+import dotenv from "dotenv";
+dotenv.config();
+>>>>>>> Stashed changes
 
 export class LLMService {
   public tables: { [key: string]: string };
@@ -15,7 +21,8 @@ export class LLMService {
 
   constructor() {
     this.tables = {};
-    this.openAIEmbeddings = new OpenAIEmbeddings();
+    this.openAIEmbeddings =  new OpenAIEmbeddings()
+
     this.model = new OpenAI({});
     this.vectorStorePath = "dist/docs/data.index";
   }
@@ -24,10 +31,14 @@ export class LLMService {
     sqlQueryForTable.replace(/\n|\+/g, "");
     const tableName = this.extractTableNameFromCreateQuery(sqlQueryForTable);
     if (tableName) {
+<<<<<<< Updated upstream
      console.log("Table name: ", tableName);
+=======
+      // console.log("Table name: ", tableName);
+>>>>>>> Stashed changes
       this.tables[tableName] = sqlQueryForTable;
     } else {
-      console.log("Table name not found");
+      // console.log("Table name not found");
     }
     console.log(this.tables);
     await this.deleteFile(this.vectorStorePath);
@@ -40,10 +51,17 @@ export class LLMService {
     sqlQueryForTable.replace(/\n|\+/g, "");
     const tableName = this.extractTableNameFromUpdateQuery(sqlQueryForTable);
     if (tableName) {
+<<<<<<< Updated upstream
      // console.log("Table name: ", tableName);
       this.tables[tableName] = sqlQueryForTable;
     } else {
       //console.log("Table name not found");
+=======
+      // console.log("Table name: ", tableName);
+      this.tables[tableName] = sqlQueryForTable;
+    } else {
+      // console.log("Table name not found");
+>>>>>>> Stashed changes
     }
     await this.deleteFile(this.vectorStorePath);
     await this.createVectorEmbeddings(
@@ -92,14 +110,24 @@ export class LLMService {
     );
 
     if (fileExists) {
+<<<<<<< Updated upstream
      // console.log("Vector Store Already Exist");
+=======
+      // console.log("Vector Store Already Exist");
+>>>>>>> Stashed changes
       this.vectorStore = await HNSWLib.load(
         this.vectorStorePath,
         this.openAIEmbeddings
       );
+<<<<<<< Updated upstream
       //console.log("this is vectorStore", this.vectorStore);
     } else {
       //console.log("Creating Vector Store");
+=======
+      // console.log("this is vectorStore", this.vectorStore);
+    } else {
+      // console.log("Creating Vector Store");
+>>>>>>> Stashed changes
 
       const textSpiltter = new RecursiveCharacterTextSplitter({
         chunkSize: 1000,
@@ -110,7 +138,11 @@ export class LLMService {
         this.openAIEmbeddings
       );
       await this.vectorStore.save(this.vectorStorePath);
+<<<<<<< Updated upstream
      // console.log("Succesfully create vector store ");
+=======
+      // console.log("Succesfully create vector store ");
+>>>>>>> Stashed changes
     }
   }
 
@@ -125,9 +157,13 @@ export class LLMService {
   async deleteFile(filePath: string): Promise<void> {
     try {
       fs.rmSync(filePath, { recursive: true });
+<<<<<<< Updated upstream
       //console.log("File deleted successfully.");
+=======
+      // console.log("File deleted successfully.");
+>>>>>>> Stashed changes
     } catch (error) {
-      console.error("Error deleting file:", error);
+      // console.error("Error deleting file:", error);
     }
   }
 }

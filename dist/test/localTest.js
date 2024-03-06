@@ -8,7 +8,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+<<<<<<< Updated upstream
 var DbSenseAi = require("../dist/index.js");
+=======
+var DbSenseAi = require("dbsense-ai");
+>>>>>>> Stashed changes
 const dbsenseai = new DbSenseAi();
 (function tester() {
     return __awaiter(this, void 0, void 0, function* () {

@@ -34,11 +34,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LLMService = void 0;
 const fs = __importStar(require("fs"));
-const openai_1 = require("langchain/embeddings/openai");
+const openai_1 = require("@langchain/openai");
 const text_splitter_1 = require("langchain/text_splitter");
 const openai_2 = require("@langchain/openai");
+<<<<<<< Updated upstream
 const hnswlib_1 = require("langchain/vectorstores/hnswlib");
 require('dotenv').config();
+=======
+const hnswlib_1 = require("@langchain/community/vectorstores/hnswlib");
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
+>>>>>>> Stashed changes
 class LLMService {
     constructor() {
         this.tables = {};
@@ -51,11 +57,11 @@ class LLMService {
             sqlQueryForTable.replace(/\n|\+/g, "");
             const tableName = this.extractTableNameFromCreateQuery(sqlQueryForTable);
             if (tableName) {
-                console.log("Table name: ", tableName);
+                // console.log("Table name: ", tableName);
                 this.tables[tableName] = sqlQueryForTable;
             }
             else {
-                console.log("Table name not found");
+                // console.log("Table name not found");
             }
             console.log(this.tables);
             yield this.deleteFile(this.vectorStorePath);
@@ -71,7 +77,11 @@ class LLMService {
                 this.tables[tableName] = sqlQueryForTable;
             }
             else {
+<<<<<<< Updated upstream
                 //console.log("Table name not found");
+=======
+                // console.log("Table name not found");
+>>>>>>> Stashed changes
             }
             yield this.deleteFile(this.vectorStorePath);
             yield this.createVectorEmbeddings(this.tableObjToStringConvertor(this.tables));
@@ -109,10 +119,17 @@ class LLMService {
             if (fileExists) {
                 // console.log("Vector Store Already Exist");
                 this.vectorStore = yield hnswlib_1.HNSWLib.load(this.vectorStorePath, this.openAIEmbeddings);
+<<<<<<< Updated upstream
                 //console.log("this is vectorStore", this.vectorStore);
             }
             else {
                 //console.log("Creating Vector Store");
+=======
+                // console.log("this is vectorStore", this.vectorStore);
+            }
+            else {
+                // console.log("Creating Vector Store");
+>>>>>>> Stashed changes
                 const textSpiltter = new text_splitter_1.RecursiveCharacterTextSplitter({
                     chunkSize: 1000,
                 });
@@ -138,10 +155,14 @@ class LLMService {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 fs.rmSync(filePath, { recursive: true });
+<<<<<<< Updated upstream
                 //console.log("File deleted successfully.");
+=======
+                // console.log("File deleted successfully.");
+>>>>>>> Stashed changes
             }
             catch (error) {
-                console.error("Error deleting file:", error);
+                // console.error("Error deleting file:", error);
             }
         });
     }

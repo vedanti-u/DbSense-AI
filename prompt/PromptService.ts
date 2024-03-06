@@ -1,10 +1,19 @@
 import * as fs from "fs";
-import { OpenAIEmbeddings } from "langchain/embeddings/openai";
+import { OpenAIEmbeddings } from "@langchain/openai";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
+<<<<<<< Updated upstream
 import { OpenAI } from "langchain/llms/openai";
 import { HNSWLib } from "langchain/vectorstores/hnswlib";
 import { RetrievalQAChain } from "langchain/chains";
 require('dotenv').config();
+=======
+import { OpenAI } from "@langchain/openai";
+import { HNSWLib } from "@langchain/community/vectorstores/hnswlib";
+import dotenv from "dotenv";
+import { RetrievalQAChain } from "langchain/chains";
+
+dotenv.config();
+>>>>>>> Stashed changes
 
 export class PromptService {
   private vectorStore: HNSWLib | undefined;
@@ -86,6 +95,10 @@ export class PromptService {
       query: prompt,
     });
 
+<<<<<<< Updated upstream
+=======
+    // console.log("Summarized text ->", response.text);
+>>>>>>> Stashed changes
     return {
       response,
     };
@@ -95,10 +108,21 @@ export class PromptService {
     unformatedPrompt: string,
     ...args: string[]
   ): string | undefined {
+<<<<<<< Updated upstream
 
     for (var index in args) {
       var stringToReplace = `{${index}}`;
       unformatedPrompt = unformatedPrompt.replace(stringToReplace, args[index]);
+=======
+    // console.log("\nUnformated Prompt :", unformatedPrompt);
+    // console.log("\nthis is args", args);
+    for (var index in args) {
+      // console.log("\nthis is args[index]", args[index]);
+      var stringToReplace = `{${index}}`;
+      // console.log("\nthis is stringtoreplace", stringToReplace);
+      unformatedPrompt = unformatedPrompt.replace(stringToReplace, args[index]);
+      // console.log("\nFormated Prompt: ", unformatedPrompt);
+>>>>>>> Stashed changes
     }
     var formatedPrompt: string = unformatedPrompt;
     return formatedPrompt;
