@@ -69,15 +69,15 @@ Diagramatic explaination here
   <details open>
     <summary>Install G++ on Linux</summary>
 
-      ```bash
-      $ sudo apt install g++
-      ```
+  ```bash
+  $ sudo apt install g++
+  ```
 
-      Check version
+  Check version
 
-      ```bash
-      $ g++ --version
-      ```
+  ```bash
+  $ g++ --version
+  ```
 
   </details>
   </br>
@@ -167,9 +167,9 @@ If you don't have git on your machine, [install it](https://docs.github.com/en/g
     <details open>
       <summary>Install G++ on Linux</summary>
       
-      ```bash
-      $ sudo apt install g++
-      ```
+    ```bash
+    $ sudo apt install g++
+    ```
 
   Check version
 
@@ -178,7 +178,6 @@ If you don't have git on your machine, [install it](https://docs.github.com/en/g
   ```
 
     </details>
-  </br>
 
 ## Fork this repository
 
@@ -206,8 +205,6 @@ e.g : `git clone https://github.com/vedanti-u/db.ai.git`
 npm install
 ```
 
-</br>
-
 ---
 
 ### Create a branch
@@ -218,7 +215,7 @@ Change to the repository directory on your computer (if you are not already ther
 $ cd dbsense-ai
 ```
 
-Now create a branch using the `git switch` command:
+Now create a branch using the `git checkout` command:
 
 ```bash
 $ git checkout -b new-branch-name
