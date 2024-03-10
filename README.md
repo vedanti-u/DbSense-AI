@@ -1,3 +1,8 @@
+<div align="center">
+<a href="https://refine.dev/">
+    <img alt="dbsense ai logo" src="https://github.com/vedanti-u/readme-assets/blob/main/dbsense-ai-logo.jpeg">
+</a>
+</div>
 <div style="font-family: 'Lucida Console', 'Courier New', monospace; font-size: 25px;  font-family: Arial, Helvetica, sans-serif;
 			background: linear-gradient(to right, #f32170,
 					#ff6b08, #cf23cf, #eedd44);
@@ -181,7 +186,7 @@ If you don't have git on your machine, [install it](https://docs.github.com/en/g
 
 ## Fork this repository
 
-<img align="right" width="300" src="https://github.com/vedanti-u/readme-assets/blob/main/fork-button.webp" alt="compare and pull request" />
+<img align="right" width="300" src="https://github.com/vedanti-u/readme-assets/blob/main/fork-button.webp" alt="fork this repository" />
 Fork this repository by clicking on the fork button on the top of this page. This will create a copy of this repository in your account.
 </br>
 
