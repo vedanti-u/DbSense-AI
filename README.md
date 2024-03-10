@@ -96,7 +96,6 @@ Diagramatic explaination here
   ```
 
   </details>
-  </br>
 
 ## Installation
 
@@ -131,26 +130,27 @@ const dbsenseai = new DbSenseAi();
 
 ## Usage
 
+_Add your create table query inside the createTable() function_
+
 ```javascript
-(async function tester() {
-  try {
-    // Add your create table query inside the createTable() function
-    await dbsenseai.createTable(
-      "CREATE TABLE cosmetics (brand VARCHAR(100) NOT NULL,product_type VARCHAR(100) NOT NULL,product_price NUMERIC(10, 2));"
-    );
+await dbsenseai.createTable(
+  "CREATE TABLE cosmetics (brand VARCHAR(100) NOT NULL,product_type VARCHAR(100) NOT NULL,product_price NUMERIC(10, 2));"
+);
+```
 
-    // Add your prompt inside the ask() function
-    let response = await dbsenseai.ask(
-      "Give me name of all brands sorted in ascending order of price"
-    );
+_Add your prompt inside the ask() function_
 
-    // You can get the response as table and summary
-    console.table(response.table);
-    console.log(response.summary);
-  } catch (error) {
-    console.error(error);
-  }
-})();
+```javascript
+let response = await dbsenseai.ask(
+  "Give me name of all brands sorted in ascending order of price"
+);
+```
+
+_You can get the response as table and summary_
+
+```javascript
+console.table(response.table);
+console.log(response.summary);
 ```
 
 </br>
@@ -197,12 +197,15 @@ If you don't have git on your machine, [install it](https://docs.github.com/en/g
 
 ## Fork this repository
 
-<img align="right" width="300" src="https://github.com/vedanti-u/readme-assets/blob/main/fork-button.webp" alt="fork this repository" />
+<img align="right" width="500" src="https://github.com/vedanti-u/readme-assets/blob/main/fork-the-repo.png" alt="fork this repository" />
+
 Fork this repository by clicking on the fork button on the top of this page. This will create a copy of this repository in your account.
 </br>
 
 ## Clone the repository
 
+<img align="right" width="500" src="https://github.com/vedanti-u/readme-assets/blob/main/clone-button.png" />
+<img align="right" width="500" src="https://github.com/vedanti-u/readme-assets/blob/main/copy-cloning-url.png" alt="fork this repository" />
 Now clone the forked repository to your machine. Go to your GitHub account, open the forked repository, click on the code button and then click the _copy to clipboard_ icon, this is the COPIED_URL.
 
 Open a terminal and run the following git command:
