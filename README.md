@@ -181,6 +181,7 @@ If you don't have git on your machine, [install it](https://docs.github.com/en/g
 
 ## Fork this repository
 
+<img align="right" width="300" src="https://github.com/vedanti-u/readme-assets/blob/main/fork-button.webp" alt="compare and pull request" />
 Fork this repository by clicking on the fork button on the top of this page. This will create a copy of this repository in your account.
 </br>
 
@@ -285,6 +286,7 @@ e.g : `$ git push --set-upstream origin optimise-binding`
 <h4>Open Github</h4>
 <img align="right" width="300" src="https://github.com/vedanti-u/readme-assets/blob/main/compare-and-pulll-request.png" alt="compare and pull request" />
 click on compare & pull request
+</br>
 <img align="right" width="300" src="https://github.com/vedanti-u/readme-assets/blob/main/create-pull-request.png" alt="create pull request" />
 write a description for your pull request specifing the changes you have made, title it and then, Click on create pull request
 
