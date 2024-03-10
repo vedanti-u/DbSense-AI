@@ -3,26 +3,26 @@
     <img alt="dbsense ai logo" src="https://github.com/vedanti-u/readme-assets/blob/main/dbsense-ai-logo.jpeg">
 </a>
 </div>
-<div style="font-family: 'Lucida Console', 'Courier New', monospace; font-size: 25px;  font-family: Arial, Helvetica, sans-serif;
+<!-- <div style="font-family: 'Lucida Console', 'Courier New', monospace; font-size: 25px;  font-family: Arial, Helvetica, sans-serif;
 			background: linear-gradient(to right, #f32170,
 					#ff6b08, #cf23cf, #eedd44);
 			-webkit-text-fill-color: transparent;
-			-webkit-background-clip: text;;">DbSenseAi</div>
+			-webkit-background-clip: text;;">DbSenseAi</div> -->
 
----
-
-<br/>
-<div align="center">
+<!-- <br/> -->
+<!-- <div align="center">
     <a href="" style="color: ;">Home Page</a> |
     <a href="">Discord</a> |
     <a href="">Blog</a> |
     <a href="">Documentation</a>
-</div>
-<br/>
-<br/>
-<div align="center"><strong>Add Here <a href="">Something</a> Add here.</strong><br>add here
+</div> -->
+<!-- <br/>
+<br/> -->
+<!-- <div align="center"><strong>Add Here <a href="">Something</a> Add here.</strong><br>add here</div> -->
+
 <br />
 <br />
+<div>
 <div align="center">
 
 [![Awesome](https://github.com/refinedev/awesome-refine/raw/main/images/badge.svg)](https://github.com/refinedev/awesome-refine)
@@ -31,6 +31,7 @@
 [![](https://img.shields.io/github/commit-activity/m/refinedev/refine)](https://github.com/refinedev/refine/commits/master)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.0-4baaaa.svg)](CODE_OF_CONDUCT.md)
 <br/>
+<br/>
 
 </div>
 
@@ -38,9 +39,19 @@
 
 ## What is DbSenseAi
 
-**DbSense-AI** is a **Javascript** library
+**DbSenseAI** is a fast and lightweight library that simplifies chatting with your database. Unlike traditional methods, it doesn't need to embed all your database data. Instead, it focuses only on the schema, making it efficient and quick.
 </br>
-</br>
+
+**Features**:
+
+- _**Efficient Schema Embedding**: Only embeds schema, skipping the need to embed all database data._
+
+- _**Fast Database Interaction**: Enables quick communication with your database._
+
+- _**Resource Optimization**: Saves resources by avoiding unnecessary data embedding._
+
+- _**Versatile Integration**: Works well with various database systems._
+  </br>
 
 ## How DbSenseAi works ?
 
