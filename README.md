@@ -195,17 +195,20 @@ If you don't have git on your machine, [install it](https://docs.github.com/en/g
 
     </details>
 
-## Fork this repository
+</br>
+<img align="right" width="200" src="https://github.com/vedanti-u/readme-assets/blob/main/fork-the-repo.png" alt="fork this repository" />
+</br>
 
-<img align="right" width="500" src="https://github.com/vedanti-u/readme-assets/blob/main/fork-the-repo.png" alt="fork this repository" />
+## Fork this repository
 
 Fork this repository by clicking on the fork button on the top of this page. This will create a copy of this repository in your account.
 </br>
 
+<img align="right" width="200" src="https://github.com/vedanti-u/readme-assets/blob/main/clone-button.png" />
+</br>
+<img align="right" width="200" src="https://github.com/vedanti-u/readme-assets/blob/main/copy-cloning-url.png" alt="fork this repository" />
 ## Clone the repository
 
-<img align="right" width="500" src="https://github.com/vedanti-u/readme-assets/blob/main/clone-button.png" />
-<img align="right" width="500" src="https://github.com/vedanti-u/readme-assets/blob/main/copy-cloning-url.png" alt="fork this repository" />
 Now clone the forked repository to your machine. Go to your GitHub account, open the forked repository, click on the code button and then click the _copy to clipboard_ icon, this is the COPIED_URL.
 
 Open a terminal and run the following git command:
