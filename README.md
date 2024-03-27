@@ -82,7 +82,97 @@
 
 The sequence diagram illustrates the process flow of a system where a user provides data to DBSenseAi, which includes schema information of tables. DBSenseAi forwards this schema to the Language Model (LLM_Model), which generates Vector Embeddings. These embeddings are stored locally by DBSenseAi. When the user queries for students who passed with above 80 marks, DBSenseAi sends this query along with the embeddings to the LLM_Model, which converts it into SQL. The SQL is then forwarded to the Database, processed, and the response is sent back to DBSenseAi, which in turn delivers it to the user.
 
+## Class Diagram
 
+
+
+```mermaid
+
+classDiagram
+    class User {
+        +ProvidesData()
+        +AsksQuery()
+    }
+    class LLMService {
+        -vectorStore: HNSWLib | undefined
+        -model: OpenAI
+        -vectorStorePath: string
+        -openAIEmbeddings: OpenAIEmbeddings
+        +createTable(sqlQueryForTable: string): void
+        +updateTable(sqlQueryForTable: string): void
+        -extractTableNameFromCreateQuery(sqlQueryForTable: string): string | null
+        -extractTableNameFromUpdateQuery(sqlQueryForTable: string): string | null
+        +createVectorEmbeddings(tableString: string): void
+        -checkFileExists(filePath: string): Promise<boolean>
+        -deleteFile(filePath: string): Promise<void>
+    }
+    class PromptService {
+        -vectorStore: HNSWLib | undefined
+        -model: OpenAI
+        -vectorStorePath: string
+        -openAIEmbeddings: OpenAIEmbeddings
+        -rawData: string
+        -jsonData: any
+        +createSqlQuery(question: string): void
+        +checkFileExists(filePath: string): Promise<boolean>
+        +summarizeResponse(question: string, answer: any): void
+        +parseMessage(unformatedPrompt: string, ...args: string[]): string | undefined
+    }
+    class DBService {
+        -connection: dbconfig
+        -client: Client
+        +queryDatabase(inputQuery: string): Promise<QueryResult>
+        +connect(): Promise<void>
+    }
+    class DbSenseAi {
+        -dbService: DBService
+        -promptService: PromptService
+        -llmService: LLMService
+        +createTable(createQuery: string): Promise<boolean>
+        +updateTable(updateQuery: string): Promise<boolean>
+        +ask(question: string): Promise<QuestionResponse>
+    }
+
+    class OpenAIEmbeddings {
+        // properties and methods
+    }
+    class OpenAI {
+        // properties and methods
+    }
+    class HNSWLib {
+        // properties and methods
+    }
+    class dbconfig {
+        // properties
+    }
+    class Client {
+        // properties and methods
+    }
+    class QueryResult {
+        // properties and methods
+    }
+    class QuestionResponse {
+        // properties and methods
+    }
+
+    User --> DbSenseAi : Uses
+    DbSenseAi --> LLMService : Uses
+    DbSenseAi --> PromptService : Uses
+    DbSenseAi --> DBService : Uses
+    PromptService --> OpenAIEmbeddings : Uses
+    PromptService --> OpenAI : Uses
+    LLMService --> OpenAIEmbeddings : Uses
+    LLMService --> OpenAI : Uses
+    LLMService --> HNSWLib : Uses
+    DBService --> dbconfig : Contains
+    DBService --> Client : Contains
+    DBService --> QueryResult : Returns
+    DbSenseAi --> QuestionResponse : Returns
+
+
+
+
+```
 
 
 
