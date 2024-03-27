@@ -55,9 +55,39 @@
 
 ## How DbSenseAi works ?
 
-Diagramatic explaination here
-</br>
-</br>
+
+```mermaid
+  sequenceDiagram
+    participant User
+    participant App
+    participant LLM_Model
+    participant Database
+    
+    User->>App: Provides data (Schema of tables)
+    App->>LLM_Model: Sends schema
+    LLM_Model->>App: Creates Vector Embedding
+    App->>App: Stores Vector Embedding in Local File
+    App->>User: Acknowledgement
+    
+    User->>App: Asks query: "All students passed with above 80 marks"
+    App->>LLM_Model: Sends query with Vector Embedding
+    LLM_Model->>LLM_Model: Converts to SQL
+    LLM_Model->>App: Sends SQL
+    App->>Database: Sends SQL
+    Database->>Database: Processes SQL
+    Database-->>App: Returns response
+    App-->>User: Sends response
+
+```
+
+The sequence diagram illustrates the process flow of a system where a user provides data to DBSenseAi, which includes schema information of tables. DBSenseAi forwards this schema to the Language Model (LLM_Model), which generates Vector Embeddings. These embeddings are stored locally by DBSenseAi. When the user queries for students who passed with above 80 marks, DBSenseAi sends this query along with the embeddings to the LLM_Model, which converts it into SQL. The SQL is then forwarded to the Database, processed, and the response is sent back to DBSenseAi, which in turn delivers it to the user.
+
+
+
+
+
+
+
 
 ## ⚡ Try DbSenseAi
 
