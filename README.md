@@ -9,11 +9,6 @@
 <div>
 <div align="center">
 
-[![Awesome](https://github.com/refinedev/awesome-refine/raw/main/images/badge.svg)](https://github.com/refinedev/awesome-refine)
-[![OpenSSF Best Practices](https://www.bestpractices.dev/projects/8101/badge)](https://www.bestpractices.dev/projects/8101)
-[![npm version](https://img.shields.io/npm/v/@refinedev/core.svg)](https://www.npmjs.com/package/@refinedev/core)
-[![](https://img.shields.io/github/commit-activity/m/refinedev/refine)](https://github.com/refinedev/refine/commits/master)
-[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.0-4baaaa.svg)](CODE_OF_CONDUCT.md)
 <br/>
 <br/>
 
@@ -39,20 +34,19 @@
 
 ## How DbSenseAi works ?
 
-
 ```mermaid
   sequenceDiagram
     participant User
     participant App
     participant LLM_Model
     participant Database
-    
+
     User->>App: Provides data (Schema of tables)
     App->>LLM_Model: Sends schema
     LLM_Model->>App: Creates Vector Embedding
     App->>App: Stores Vector Embedding in Local File
     App->>User: Acknowledgement
-    
+
     User->>App: Asks query: "All students passed with above 80 marks"
     App->>LLM_Model: Sends query with Vector Embedding
     LLM_Model->>LLM_Model: Converts to SQL
@@ -67,8 +61,6 @@
 The sequence diagram illustrates the process flow of a system where a user provides data to DBSenseAi, which includes schema information of tables. DBSenseAi forwards this schema to the Language Model (LLM_Model), which generates Vector Embeddings. These embeddings are stored locally by DBSenseAi. When the user queries for students who passed with above 80 marks, DBSenseAi sends this query along with the embeddings to the LLM_Model, which converts it into SQL. The SQL is then forwarded to the Database, processed, and the response is sent back to DBSenseAi, which in turn delivers it to the user.
 
 ## Class Diagram
-
-
 
 ```mermaid
 
@@ -158,40 +150,37 @@ classDiagram
 
 ```
 
-
-
-
-
-
 ## ⚡ Try DbSenseAi
 
 ## Prerequisites
 
 ### 1. **make**
-  
- Install make on Linux
-  ```bash
-  $ sudo apt install make
-  ```
 
-  Check version
+Install make on Linux
 
-  ```bash
-  $ make -version
-  ```
+```bash
+$ sudo apt install make
+```
+
+Check version
+
+```bash
+$ make -version
+```
 
 ### 2. **G++**
+
 Install G++ on Linux
-  ```bash
-  $ sudo apt install g++
-  ```
 
-  Check version
+```bash
+$ sudo apt install g++
+```
 
-  ```bash
-  $ g++ --version
-  ```
+Check version
 
+```bash
+$ g++ --version
+```
 
 ## Installation
 
@@ -256,8 +245,7 @@ console.log(response.summary);
 > [!NOTE]
 > Contributing Guidelines
 
- ### Prerequisites
-
+### Prerequisites
 
 If you don't have git on your machine, [install it](https://docs.github.com/en/get-started/quickstart/set-up-git).
 
@@ -296,6 +284,7 @@ If you don't have git on your machine, [install it](https://docs.github.com/en/g
     </details>
 
 ### Fork this repository
+
 <img align="right" width="400" src="https://github.com/vedanti-u/readme-assets/blob/main/fork-the-repo.png" alt="fork this repository" />
 <h4>Fork this repository by clicking on the fork button on the top of this page. This will create a copy of this repository in your account.
 </h4>
@@ -309,7 +298,6 @@ If you don't have git on your machine, [install it](https://docs.github.com/en/g
 
 <img align="right" width="300" src="https://github.com/vedanti-u/readme-assets/blob/main/copy-cloning-url.png" alt="fork this repository" />
 <img align="right" width="300" src="https://github.com/vedanti-u/readme-assets/blob/main/clone-button.png" />
-
 
 <h4>Now clone the forked repository to your machine. Go to your GitHub account, open the forked repository, click on the code button and then click the _copy to clipboard_ icon, this is the COPIED_URL.</h4>
 </br>
@@ -380,7 +368,8 @@ tsc
 npm link
 npm link dbsense-ai
 ```
-------
+
+---
 
 ## Testing the library locally
 
@@ -444,5 +433,6 @@ _your branch will be merged on code review_
 </br>
 </br>
 
------------
+---
+
 ![MadeWithLove](http://ForTheBadge.com/images/badges/built-with-love.svg) [![forthebadge](https://forthebadge.com/images/badges/license-mit.svg)](https://forthebadge.com) [![Open Source Love svg1](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
