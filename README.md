@@ -3,22 +3,6 @@
     <img alt="dbsense ai logo" src="https://github.com/vedanti-u/readme-assets/blob/main/dbsense-ai-logo.jpeg">
 </a>
 </div>
-<!-- <div style="font-family: 'Lucida Console', 'Courier New', monospace; font-size: 25px;  font-family: Arial, Helvetica, sans-serif;
-			background: linear-gradient(to right, #f32170,
-					#ff6b08, #cf23cf, #eedd44);
-			-webkit-text-fill-color: transparent;
-			-webkit-background-clip: text;;">DbSenseAi</div> -->
-
-<!-- <br/> -->
-<!-- <div align="center">
-    <a href="" style="color: ;">Home Page</a> |
-    <a href="">Discord</a> |
-    <a href="">Blog</a> |
-    <a href="">Documentation</a>
-</div> -->
-<!-- <br/>
-<br/> -->
-<!-- <div align="center"><strong>Add Here <a href="">Something</a> Add here.</strong><br>add here</div> -->
 
 <br />
 <br />
@@ -181,13 +165,12 @@ classDiagram
 
 ## ⚡ Try DbSenseAi
 
-### Prerequisites
+> [!NOTE]
+> ### Prerequisites
 
-- #### **make**
-
-  <details open>
-    <summary>Install make on Linux</summary>
-
+#### :one: **make**
+  
+ Install make on Linux
   ```bash
   $ sudo apt install make
   ```
@@ -198,13 +181,8 @@ classDiagram
   $ make -version
   ```
 
-  </details>
-
-- #### **G++**
-
-  <details open>
-    <summary>Install G++ on Linux</summary>
-
+#### :two: **G++**
+Install G++ on Linux
   ```bash
   $ sudo apt install g++
   ```
@@ -215,7 +193,6 @@ classDiagram
   $ g++ --version
   ```
 
-  </details>
 
 ## Installation
 
@@ -236,13 +213,13 @@ DB_USER=<YOUR_DATABASE_USER>
 DB_PASSWORD=<YOUR_DATABASE_PASSWORD>
 ```
 
-Once the package is installed, you can import the library using import or require approach:
+_Once the package is installed, you can import the library using import or require approach:_
 
 ```javascript
 var DbSenseAi = require("dbsense-ai");
 ```
 
-Instanciate the DbSenseAi class
+##### Instanciate the DbSenseAi class
 
 ```javascript
 const dbsenseai = new DbSenseAi();
@@ -275,9 +252,13 @@ console.log(response.summary);
 
 </br>
 
-# Contributing to Library
+# 🤝 Contributing to Library
 
-### Prerequisites
+> [!NOTE]
+> Contributing Guidelines
+
+ ### Prerequisites
+
 
 If you don't have git on your machine, [install it](https://docs.github.com/en/get-started/quickstart/set-up-git).
 
@@ -315,20 +296,30 @@ If you don't have git on your machine, [install it](https://docs.github.com/en/g
 
     </details>
 
-## Fork this repository
+### Fork this repository
+<img align="right" width="400" src="https://github.com/vedanti-u/readme-assets/blob/main/fork-the-repo.png" alt="fork this repository" />
+<h4>Fork this repository by clicking on the fork button on the top of this page. This will create a copy of this repository in your account.
+</h4>
 
-<img align="right" width="500" src="https://github.com/vedanti-u/readme-assets/blob/main/fork-the-repo.png" alt="fork this repository" />
-
-Fork this repository by clicking on the fork button on the top of this page. This will create a copy of this repository in your account.
+</br>
+</br>
+</br>
 </br>
 
-## Clone the repository
+### Clone the repository
 
-<img align="right" width="500" src="https://github.com/vedanti-u/readme-assets/blob/main/clone-button.png" />
-<img align="right" width="500" src="https://github.com/vedanti-u/readme-assets/blob/main/copy-cloning-url.png" alt="fork this repository" />
-Now clone the forked repository to your machine. Go to your GitHub account, open the forked repository, click on the code button and then click the _copy to clipboard_ icon, this is the COPIED_URL.
+<img align="right" width="300" src="https://github.com/vedanti-u/readme-assets/blob/main/copy-cloning-url.png" alt="fork this repository" />
+<img align="right" width="300" src="https://github.com/vedanti-u/readme-assets/blob/main/clone-button.png" />
 
-Open a terminal and run the following git command:
+
+<h4>Now clone the forked repository to your machine. Go to your GitHub account, open the forked repository, click on the code button and then click the _copy to clipboard_ icon, this is the COPIED_URL.</h4>
+</br>
+</br>
+</br>
+</br>
+</br>
+
+_Open a terminal and run the following git command:_
 
 ```git
 git clone "COPIED_URL"
@@ -390,6 +381,7 @@ tsc
 npm link
 npm link dbsense-ai
 ```
+------
 
 ## Testing the library locally
 
@@ -426,9 +418,30 @@ e.g : `$ git push --set-upstream origin optimise-binding`
 <img align="right" width="300" src="https://github.com/vedanti-u/readme-assets/blob/main/compare-and-pulll-request.png" alt="compare and pull request" />
 click on compare & pull request
 </br>
+</br>
+</br>
+</br>
 <img align="right" width="300" src="https://github.com/vedanti-u/readme-assets/blob/main/create-pull-request.png" alt="create pull request" />
 write a description for your pull request specifing the changes you have made, title it and then, Click on create pull request
 
 _your branch will be merged on code review_
 
   </details>
+  
+###  :octocat: Statistics
+![stars](https://img.shields.io/github/stars/{vedanti-u}/{DbSense-AI}.svg)
+![fork](https://img.shields.io/github/forks/{vedanti-u}/{DbSense-AI}.svg)
+![watchers](https://img.shields.io/github/watchers/{vedanti-u}/{DbSense-AI}.svg)
+![releases](https://img.shields.io/github/release/{vedanti-u}/{DbSense-AI}.svg)
+[![PyPI status](https://img.shields.io/pypi/status/ansicolortags.svg)](https://pypi.python.org/pypi/ansicolortags/)
+[![GitHub contributors](https://badgen.net/github/contributors/vedanti-u/DbSense-AI)](https://GitHub.com/vedanti-u/DbSense-AI/graphs/contributors/)
+[![GitHub issues](https://img.shields.io/github/issues/vedanti-u/DbSense-AI.svg)](https://GitHub.com/vedanti-u/DbSense-AI/issues/)
+[![GitHub issues](https://badgen.net/github/issues/vedanti-u/DbSense-AI/)](https://GitHub.com/vedanti-u/DbSense-AI/issues/)
+[![GitHub issues-closed](https://img.shields.io/github/issues-closed/vedanti-u/DbSense-AI.svg)](https://GitHub.com/vedanti-u/DbSense-AI/issues?q=is%3Aissue+is%3Aclosed)
+[![GitHub pull-requests closed](https://img.shields.io/github/issues-pr-closed/vedanti-u/DbSense-AI.svg)](https://GitHub.com/Naereen/StrapDown.js/pull/)
+[![GitHub pull-requests closed](https://badgen.net/github/closed-prs/vedanti-u/DbSense-AI)](https://github.com/vedanti-u/DbSense-AI/pulls?q=is%3Aclosed)
+[![GitHub pull-requests merged](https://badgen.net/github/merged-prs/vedanti-u/DbSense-AI)](https://github.com/vedanti-u/DbSense-AI/pulls?q=is%3Amerged)
+
+</br>
+-----------
+![MadeWithLove](http://ForTheBadge.com/images/badges/built-with-love.svg) [![forthebadge](https://forthebadge.com/images/badges/license-mit.svg)](https://forthebadge.com)
