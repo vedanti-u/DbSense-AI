@@ -9,8 +9,14 @@
 <div>
 <div align="center">
 
-<br/>
-<br/>
+![NPM](https://img.shields.io/badge/NPM-%23CB3837.svg?style=flat-square&logo=npm&logoColor=white)
+![Linux](https://img.shields.io/badge/Linux-FCC624?style=flat-square&logo=linux&logoColor=black)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=flat-square&logo=typescript&logoColor=white) ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=flat-square&logo=node.js&logoColor=white) ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=flat-square&logo=postgresql&logoColor=white) ![Supabase](https://img.shields.io/badge/Supabase-3FCF8E.svg?style=flat-square&logo=Supabase&logoColor=white)
+![Openai](https://img.shields.io/badge/OpenAI-412991.svg?style=flat-square&logo=OpenAI&logoColor=white) ![Openai](https://img.shields.io/badge/Nodemon-76D04B.svg?style=flat-square&logo=Nodemon&logoColor=white) ![Langchain](https://img.shields.io/badge/Langchain-red?style=flat-square) [![Open Source? Yes!](https://badgen.net/badge/Open%20Source%20%3F/Yes%21/blue?icon=github)](https://github.com/Naereen/badges/)
+![releases](https://img.shields.io/github/release/vedanti-u/DbSense-AI.svg)
+[![Npm package monthly downloads](https://badgen.net/npm/dm/dbsense-ai)](https://www.npmjs.com/package/dbsense-ai)
+[![Npm package total downloads](https://badgen.net/npm/dt/dbsense-ai)](https://www.npmjs.com/package/dbsense-ai)
+[![GitHub contributors](https://badgen.net/github/contributors/vedanti-u/DbSense-AI)](https://GitHub.com/vedanti-u/DbSense-AI/graphs/contributors/)
 
 </div>
 
@@ -154,45 +160,45 @@ classDiagram
 
 ## Prerequisites
 
-### 1. **make**
+- **Make**
 
-Install make on Linux
+  > Install make on Linux
 
-```bash
-$ sudo apt install make
-```
+  ```bash
+  $ sudo apt install make
+  ```
 
-Check version
+  _Check version_
 
-```bash
-$ make -version
-```
+  ```bash
+  $ make -version
+  ```
 
-### 2. **G++**
+- ### **G++**
 
-Install G++ on Linux
+  > Install G++ on Linux
 
-```bash
-$ sudo apt install g++
-```
+  ```bash
+  $ sudo apt install g++
+  ```
 
-Check version
+  _Check version_
 
-```bash
-$ g++ --version
-```
+  ```bash
+  $ g++ --version
+  ```
 
-## Installation
+  ## Installation
 
-```bash
-$ npm i dbsense-ai
-```
+  ```bash
+  $ npm i dbsense-ai
+  ```
 
-## Setting-up `.env`
+## Setting-up `.env` file
 
 Your `.env` file should include
 
-```
+```bash
 export OPENAI_API_KEY=<YOUR_OPENAI_KEY>
 DB_DATABASE=<YOUR_DATABASE_NAME>
 DB_HOST=<YOUR_DATABASE_HOST>
@@ -215,7 +221,7 @@ const dbsenseai = new DbSenseAi();
 
 ## Usage
 
-_Add your create table query inside the createTable() function_
+Add your _create table query_ inside the createTable() function
 
 ```javascript
 await dbsenseai.createTable(
@@ -223,7 +229,7 @@ await dbsenseai.createTable(
 );
 ```
 
-_Add your prompt inside the ask() function_
+Add _your prompt_ inside the ask() function
 
 ```javascript
 let response = await dbsenseai.ask(
@@ -245,9 +251,15 @@ console.log(response.summary);
 > [!NOTE]
 > Contributing Guidelines
 
+### Dependencies
+
+![NPM Version](https://img.shields.io/badge/npm-v10.2.4-red?style=For-the-badge)
+![Node Version](https://img.shields.io/badge/node-v^20.11.17-blue?style=For-the-badge) ![NVM Version](https://img.shields.io/badge/nvm-v0.39.1-green?style=For-the-badge)
+![TypeScript](https://img.shields.io/badge/typescript-v^5.3.3-yellow?style=sqaure-flat&logo=typescript&logoColor=white) ![Postgres](https://img.shields.io/badge/postgres-^8.11.0-purple?style=square-flat&logo=postgresql&logoColor=white)
+
 ### Prerequisites
 
-If you don't have git on your machine, [install it](https://docs.github.com/en/get-started/quickstart/set-up-git).
+> If you don't have git on your machine, [install it](https://docs.github.com/en/get-started/quickstart/set-up-git).
 
 - #### **make**
 
@@ -258,7 +270,7 @@ If you don't have git on your machine, [install it](https://docs.github.com/en/g
   $ sudo apt install make
   ```
 
-  Check version
+  _Check version_
 
   ```bash
   $ make -version
@@ -275,7 +287,7 @@ If you don't have git on your machine, [install it](https://docs.github.com/en/g
     $ sudo apt install g++
     ```
 
-  Check version
+  _Check version_
 
   ```bash
   $ g++ --version
@@ -285,28 +297,29 @@ If you don't have git on your machine, [install it](https://docs.github.com/en/g
 
 ### Fork this repository
 
-<img align="right" width="400" src="https://github.com/vedanti-u/readme-assets/blob/main/fork-the-repo.png" alt="fork this repository" />
-<h4>Fork this repository by clicking on the fork button on the top of this page. This will create a copy of this repository in your account.
-</h4>
-
-</br>
-</br>
-</br>
-</br>
+<details close>
+  <summary>Forking</summary>
+  <img align="right" width="400" src="https://github.com/vedanti-u/readme-assets/blob/main/fork-the-repo.png" alt="fork this repository" />
+  <h4>Fork this repository by clicking on the fork button on the top of this page. This will create a copy of this repository in your account.
+  </h4>
+</details>
 
 ### Clone the repository
 
-<img align="right" width="300" src="https://github.com/vedanti-u/readme-assets/blob/main/copy-cloning-url.png" alt="fork this repository" />
-<img align="right" width="300" src="https://github.com/vedanti-u/readme-assets/blob/main/clone-button.png" />
+<details close>
+  <summary>Cloning</summary>
+  <img align="right" width="300" src="https://github.com/vedanti-u/readme-assets/blob/main/copy-cloning-url.png" alt="fork this repository" />
+  <img align="right" width="300" src="https://github.com/vedanti-u/readme-assets/blob/main/clone-button.png" />
 
-<h4>Now clone the forked repository to your machine. Go to your GitHub account, open the forked repository, click on the code button and then click the _copy to clipboard_ icon, this is the COPIED_URL.</h4>
+  <h4>Now clone the forked repository to your machine. Go to your GitHub account, open the forked repository, click on the code button and then click the _copy to clipboard_ icon, this is the COPIED_URL.</h4>
+
 </br>
 </br>
 </br>
 </br>
 </br>
 
-_Open a terminal and run the following git command:_
+> _Open a terminal and run the following git command:_
 
 ```git
 git clone "COPIED_URL"
@@ -315,7 +328,7 @@ git clone "COPIED_URL"
 e.g : `git clone https://github.com/vedanti-u/db.ai.git`
 </br>
 
----
+</details>
 
 ### Install dependencies
 
@@ -327,7 +340,9 @@ npm install
 
 ### Create a branch
 
-Change to the repository directory on your computer (if you are not already there):
+<details>
+  <summary>Branch naming conviction</summary>
+  Change to the repository directory on your computer (if you are not already there):
 
 ```bash
 $ cd dbsense-ai
@@ -347,11 +362,13 @@ e.g : you want to work on creating more llm prompt support, name your branch lik
 
 _(follow this naming convention i.e using "-" in between)_
 
-### _Make necessary changes_
+</details>
+
+### Make contribution to _Code_
 
 #### Create a `.env` File with format
 
-```
+```bash
 export OPENAI_API_KEY=<YOUR_OPENAI_KEY>
 DB_DATABASE=<YOUR_DATABASE_NAME>
 DB_HOST=<YOUR_DATABASE_HOST>
@@ -380,7 +397,7 @@ node test/localLibrary.test.ts --env=.env
 ### Create a pull request
 
   <details>
-   <summary>How to create pull request</summary>
+   <summary>Creating pull requests</summary>
   </br>
   Once you have modified an existing file or added a new file to the project of your choice, you can stage it to your local repository, which we can do with the `git add` command. In our example, `filename.md`, we will type the following command.
 
@@ -415,24 +432,27 @@ write a description for your pull request specifing the changes you have made, t
 _your branch will be merged on code review_
 
   </details>
-  
-###  :octocat: Statistics
-![stars](https://img.shields.io/github/stars/{vedanti-u}/{DbSense-AI}.svg)
-![fork](https://img.shields.io/github/forks/{vedanti-u}/{DbSense-AI}.svg)
-![watchers](https://img.shields.io/github/watchers/{vedanti-u}/{DbSense-AI}.svg)
-![releases](https://img.shields.io/github/release/{vedanti-u}/{DbSense-AI}.svg)
-[![PyPI status](https://img.shields.io/pypi/status/ansicolortags.svg)](https://pypi.python.org/pypi/ansicolortags/)
+
+</br>
+
+### :octocat: Statistics
+
+[![Open Source Love svg2](https://badges.frapsoft.com/os/v2/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
+![stars](https://img.shields.io/github/stars/vedanti-u/DbSense-AI.svg)
+![forks](https://img.shields.io/github/forks/vedanti-u/DbSense-AI.svg)
+![watchers](https://img.shields.io/github/watchers/vedanti-u/DbSense-AI.svg)
+[![Open Source? Yes!](https://badgen.net/badge/Open%20Source%20%3F/Yes%21/blue?icon=github)](https://github.com/Naereen/badges/)
+[![Npm](https://badgen.net/badge/icon/npm?icon=npm&label)](https://npmjs.com/)
+![releases](https://img.shields.io/github/release/vedanti-u/DbSense-AI.svg)
+[![Npm package monthly downloads](https://badgen.net/npm/dm/dbsense-ai)](https://www.npmjs.com/package/dbsense-ai)
+[![Npm package total downloads](https://badgen.net/npm/dt/dbsense-ai)](https://www.npmjs.com/package/dbsense-ai)
 [![GitHub contributors](https://badgen.net/github/contributors/vedanti-u/DbSense-AI)](https://GitHub.com/vedanti-u/DbSense-AI/graphs/contributors/)
+[![GitHub commits](https://badgen.net/github/commits/vedanti-u/DbSense-AI)](https://GitHub.com/Naereen/StrapDown.js/commit/)
 [![GitHub issues](https://img.shields.io/github/issues/vedanti-u/DbSense-AI.svg)](https://GitHub.com/vedanti-u/DbSense-AI/issues/)
-[![GitHub issues](https://badgen.net/github/issues/vedanti-u/DbSense-AI/)](https://GitHub.com/vedanti-u/DbSense-AI/issues/)
 [![GitHub issues-closed](https://img.shields.io/github/issues-closed/vedanti-u/DbSense-AI.svg)](https://GitHub.com/vedanti-u/DbSense-AI/issues?q=is%3Aissue+is%3Aclosed)
-[![GitHub pull-requests closed](https://img.shields.io/github/issues-pr-closed/vedanti-u/DbSense-AI.svg)](https://GitHub.com/Naereen/StrapDown.js/pull/)
-[![GitHub pull-requests closed](https://badgen.net/github/closed-prs/vedanti-u/DbSense-AI)](https://github.com/vedanti-u/DbSense-AI/pulls?q=is%3Aclosed)
-[![GitHub pull-requests merged](https://badgen.net/github/merged-prs/vedanti-u/DbSense-AI)](https://github.com/vedanti-u/DbSense-AI/pulls?q=is%3Amerged)
+[![GitHub pull-requests closed](https://img.shields.io/github/issues-pr-closed/vedanti-u/DbSense-AI.svg)](https://GitHub.com/vedanti-u/DbSense-AI/pulls?q=is%3Aclosed)
+[![GitHub pull-requests closed](https://badgen.net/github/closed-prs/vedanti-u/DbSense-AI)](https://GitHub.com/vedanti-u/DbSense-AI/pulls?q=is%3Aclosed)
+[![GitHub pull-requests merged](https://badgen.net/github/merged-prs/vedanti-u/DbSense-AI)](https://GitHub.com/vedanti-u/DbSense-AI/pulls?q=is%3Amerged)
+[![GitHub license](https://img.shields.io/github/license/vedanti-u/DbSense-AI.svg)](https://github.com/vedanti-u/DbSense-AI/blob/master/LICENSE)
 
-</br>
-</br>
-
----
-
-![MadeWithLove](http://ForTheBadge.com/images/badges/built-with-love.svg) [![forthebadge](https://forthebadge.com/images/badges/license-mit.svg)](https://forthebadge.com) [![Open Source Love svg1](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
+![Love](https://img.shields.io/badge/Made_with_Love-pink?style=flat-square&logo=data:image/svg%2bxml;base64,PHN2ZyByb2xlPSJpbWciIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+R2l0SHViIFNwb25zb3JzIGljb248L3RpdGxlPjxwYXRoIGQ9Ik0xNy42MjUgMS40OTljLTIuMzIgMC00LjM1NCAxLjIwMy01LjYyNSAzLjAzLTEuMjcxLTEuODI3LTMuMzA1LTMuMDMtNS42MjUtMy4wM0MzLjEyOSAxLjQ5OSAwIDQuMjUzIDAgOC4yNDljMCA0LjI3NSAzLjA2OCA3Ljg0NyA1LjgyOCAxMC4yMjdhMzMuMTQgMzMuMTQgMCAwIDAgNS42MTYgMy44NzZsLjAyOC4wMTcuMDA4LjAwMy0uMDAxLjAwM2MuMTYzLjA4NS4zNDIuMTI2LjUyMS4xMjUuMTc5LjAwMS4zNTgtLjA0MS41MjEtLjEyNWwtLjAwMS0uMDAzLjAwOC0uMDAzLjAyOC0uMDE3YTMzLjE0IDMzLjE0IDAgMCAwIDUuNjE2LTMuODc2QzIwLjkzMiAxNi4wOTYgMjQgMTIuNTI0IDI0IDguMjQ5YzAtMy45OTYtMy4xMjktNi43NS02LjM3NS02Ljc1em0tLjkxOSAxNS4yNzVhMzAuNzY2IDMwLjc2NiAwIDAgMS00LjcwMyAzLjMxNmwtLjAwNC0uMDAyLS4wMDQuMDAyYTMwLjk1NSAzMC45NTUgMCAwIDEtNC43MDMtMy4zMTZjLTIuNjc3LTIuMzA3LTUuMDQ3LTUuMjk4LTUuMDQ3LTguNTIzIDAtMi43NTQgMi4xMjEtNC41IDQuMTI1LTQuNSAyLjA2IDAgMy45MTQgMS40NzkgNC41NDQgMy42ODQuMTQzLjQ5NS41OTYuNzk3IDEuMDg2Ljc5Ni40OS4wMDEuOTQzLS4zMDIgMS4wODUtLjc5Ni42My0yLjIwNSAyLjQ4NC0zLjY4NCA0LjU0NC0zLjY4NCAyLjAwNCAwIDQuMTI1IDEuNzQ2IDQuMTI1IDQuNSAwIDMuMjI1LTIuMzcgNi4yMTYtNS4wNDggOC41MjN6Ii8+PC9zdmc+)
