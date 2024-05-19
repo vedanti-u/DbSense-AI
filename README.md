@@ -165,10 +165,9 @@ classDiagram
 
 ## ⚡ Try DbSenseAi
 
-> [!NOTE]
-> ### Prerequisites
+## Prerequisites
 
-#### :one: **make**
+### 1. **make**
   
  Install make on Linux
   ```bash
@@ -181,7 +180,7 @@ classDiagram
   $ make -version
   ```
 
-#### :two: **G++**
+### 2. **G++**
 Install G++ on Linux
   ```bash
   $ sudo apt install g++
@@ -443,5 +442,7 @@ _your branch will be merged on code review_
 [![GitHub pull-requests merged](https://badgen.net/github/merged-prs/vedanti-u/DbSense-AI)](https://github.com/vedanti-u/DbSense-AI/pulls?q=is%3Amerged)
 
 </br>
+</br>
+
 -----------
-![MadeWithLove](http://ForTheBadge.com/images/badges/built-with-love.svg) [![forthebadge](https://forthebadge.com/images/badges/license-mit.svg)](https://forthebadge.com)
+![MadeWithLove](http://ForTheBadge.com/images/badges/built-with-love.svg) [![forthebadge](https://forthebadge.com/images/badges/license-mit.svg)](https://forthebadge.com) [![Open Source Love svg1](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
