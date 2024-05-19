@@ -3,7 +3,7 @@
     <img alt="dbsense ai logo" src="https://github.com/vedanti-u/readme-assets/blob/main/dbsense-ai-logo.jpeg">
 </a>
 </div>
-<!-- <div style="font-family: 'Lucida Console', 'Courier New', monospace; font-size: 25px;  font-family: Arial, Helvetica, sans-serif;
+<div style="font-family: 'Lucida Console', 'Courier New', monospace; font-size: 25px;  font-family: Arial, Helvetica, sans-serif;
 			background: linear-gradient(to right, #f32170,
 					#ff6b08, #cf23cf, #eedd44);
 			-webkit-text-fill-color: transparent;
@@ -18,18 +18,13 @@
 </div> -->
 <!-- <br/>
 <br/> -->
-<!-- <div align="center"><strong>Add Here <a href="">Something</a> Add here.</strong><br>add here</div> -->
+<!-- <div align="center"><strong>Add Here <a href="">Something</a> Add here.</strong><br>add here</div>
 
 <br />
 <br />
 <div>
 <div align="center">
 
-[![Awesome](https://github.com/refinedev/awesome-refine/raw/main/images/badge.svg)](https://github.com/refinedev/awesome-refine)
-[![OpenSSF Best Practices](https://www.bestpractices.dev/projects/8101/badge)](https://www.bestpractices.dev/projects/8101)
-[![npm version](https://img.shields.io/npm/v/@refinedev/core.svg)](https://www.npmjs.com/package/@refinedev/core)
-[![](https://img.shields.io/github/commit-activity/m/refinedev/refine)](https://github.com/refinedev/refine/commits/master)
-[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.0-4baaaa.svg)](CODE_OF_CONDUCT.md)
 <br/>
 <br/>
 
