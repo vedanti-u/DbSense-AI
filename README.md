@@ -310,8 +310,7 @@ console.log(response.summary);
 <details close>
   <summary>Cloning</summary>
   </br>
-  </br>
-  <img align="right" width="300" src="https://github.com/vedanti-u/readme-assets/blob/main/copy-cloning-url.png" alt="fork this repository" />
+  <img align="right" width="200" src="https://github.com/vedanti-u/readme-assets/blob/main/copy-cloning-url.png" alt="fork this repository" />
   <img align="right" width="300" src="https://github.com/vedanti-u/readme-assets/blob/main/clone-button.png" />
 
   <h4>Now clone the forked repository to your machine. Go to your GitHub account, open the forked repository, click on the code button and then click the _copy to clipboard_ icon, this is the COPIED_URL.</h4>
