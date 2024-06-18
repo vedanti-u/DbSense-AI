@@ -45,7 +45,11 @@ class PromptService {
         this.model = new openai_2.OpenAI({});
         this.vectorStorePath = "./docs/data.index";
         // console.log(`Current directory: ${process.cwd()}`);
-        this.rawData = fs.readFileSync("prompts.json", "utf8");
+        const path = require("path");
+        const promptsPath = path.join(__dirname, "prompts.json");
+        console.log("this is promptsPath re :", promptsPath);
+        this.rawData = fs.readFileSync(promptsPath, "utf8");
+        // this.rawData = fs.readFileSync("prompts.json", "utf8");
         // console.log("rawData", this.rawData);
         this.jsonData = JSON.parse(this.rawData);
         // console.log("jsonData", this.jsonData);

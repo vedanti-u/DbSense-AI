@@ -1,0 +1,1 @@
+[["0",{"pageContent":"CREATE TABLE Employee (emp_id SERIAL PRIMARY KEY,name VARCHAR(100) NOT NULL,designation VARCHAR(100) NOT NULL,age INT NOT NULL,salary DECIMAL(10, 2) NOT NULL,department VARCHAR(100) NOT NULL,phone_no VARCHAR(15) NOT NULL);","metadata":{"loc":{"lines":{"from":1,"to":1}}}}]]
