@@ -18,7 +18,7 @@ class DbSenseAi {
     constructor() {
         this.dbService = new DBService_1.DBService({
             host: process.env.DB_HOST,
-            port: 5432,
+            port: Number(process.env.DB_PORT),
             database: process.env.DB_DATABASE,
             user: process.env.DB_USER,
             password: process.env.DB_PASSWORD,
@@ -32,7 +32,7 @@ class DbSenseAi {
                 this.llmService
                     .createTable(createQuery)
                     .then(() => {
-                    console.log("Table & Vector Embeddings created successfully!");
+                    //console.log("Table & Vector Embeddings created successfully!");
                     resolve(true);
                 })
                     .catch((error) => {
@@ -48,7 +48,7 @@ class DbSenseAi {
                 this.llmService
                     .updateTable(updateQuery)
                     .then(() => {
-                    console.log("Table & Vector Embeddings updates successfully!");
+                    //console.log("Table & Vector Embeddings updates successfully!");
                     resolve(true);
                 })
                     .catch((error) => {

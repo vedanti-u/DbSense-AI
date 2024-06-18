@@ -31,24 +31,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PromptService = void 0;
 const fs = __importStar(require("fs"));
 const openai_1 = require("@langchain/openai");
 const openai_2 = require("@langchain/openai");
 const hnswlib_1 = require("@langchain/community/vectorstores/hnswlib");
-const dotenv_1 = __importDefault(require("dotenv"));
 const chains_1 = require("langchain/chains");
-dotenv_1.default.config();
+require("dotenv/config");
 class PromptService {
     constructor() {
         this.openAIEmbeddings = new openai_1.OpenAIEmbeddings();
         this.model = new openai_2.OpenAI({});
         this.vectorStorePath = "./docs/data.index";
-        this.rawData = fs.readFileSync("prompts.json", "utf8");
+        console.log(`Current directory: ${process.cwd()}`);
+        this.rawData = fs.readFileSync("./dist/prompts.json", "utf8");
         // console.log("rawData", this.rawData);
         this.jsonData = JSON.parse(this.rawData);
         // console.log("jsonData", this.jsonData);

@@ -3,8 +3,6 @@
     <img alt="dbsense ai logo" src="https://github.com/vedanti-u/readme-assets/blob/main/dbsense-ai-logo.jpeg">
 </a>
 </div>
-
-<br />
 <br />
 <div>
 <div align="center">
@@ -166,13 +164,13 @@ classDiagram
   > Install make on Linux
 
   ```bash
-  $ sudo apt install make
+  sudo apt install make
   ```
 
   _Check version_
 
   ```bash
-  $ make -version
+  make -version
   ```
 
 - ### **G++**
@@ -180,19 +178,19 @@ classDiagram
   > Install G++ on Linux
 
   ```bash
-  $ sudo apt install g++
+  sudo apt install g++
   ```
 
   _Check version_
 
   ```bash
-  $ g++ --version
+  g++ --version
   ```
 
   ## Installation
 
   ```bash
-  $ npm i dbsense-ai
+  npm i dbsense-ai
   ```
 
 ## Setting-up `.env` file

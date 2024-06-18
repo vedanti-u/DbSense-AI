@@ -1,7 +1,6 @@
 import { resolve } from "path";
 import { Client, QueryResult } from "pg";
-import dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 type dbconfig = {
   host: string | undefined;
   port: number | undefined;
@@ -28,17 +27,17 @@ export class DBService {
       this.client
         .query(inputQuery)
         .then((result: QueryResult) => {
-          console.log("Query Executed Successfully !");
-          console.log("Number of rows returned:", result.rowCount);
-          console.log("Command type:", result.command);
+          //console.log("Query Executed Successfully !");
+          //console.log("Number of rows returned:", result.rowCount);
+          //console.log("Command type:", result.command);
 
-          console.log("Rows:");
+          //console.log("Rows:");
 
-          for (const row of result.rows) {
-            console.log(row);
-          }
+          // for (const row of result.rows) {
+          //   console.log(row);
+          // }
 
-          console.table(result.rows);
+          //console.table(result.rows);
           resolve(result);
         })
         .catch((err) => {
