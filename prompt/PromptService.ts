@@ -19,7 +19,7 @@ export class PromptService {
     this.model = new OpenAI({});
     this.vectorStorePath = "./docs/data.index";
     // console.log(`Current directory: ${process.cwd()}`);
-    this.rawData = fs.readFileSync("./dist/prompts.json", "utf8");
+    this.rawData = fs.readFileSync("prompts.json", "utf8");
     // console.log("rawData", this.rawData);
     this.jsonData = JSON.parse(this.rawData);
     // console.log("jsonData", this.jsonData);
