@@ -1,14 +1,14 @@
-var DbSenseAi =require( "dbsense-ai");
+var DbSenseAi = require("dbsense-ai");
 
 const dbsenseai = new DbSenseAi();
 
 (async function tester() {
   try {
     await dbsenseai.createTable(
-      "CREATE TABLE cosmetics (brand VARCHAR(100) NOT NULL,product_type VARCHAR(100) NOT NULL,product_price NUMERIC(10, 2));"
+      "CREATE TABLE Employee (emp_id SERIAL PRIMARY KEY,name VARCHAR(100) NOT NULL,designation VARCHAR(100) NOT NULL,age INT NOT NULL,salary DECIMAL(10, 2) NOT NULL,department VARCHAR(100) NOT NULL,phone_no VARCHAR(15) NOT NULL);"
     );
     let response = await dbsenseai.ask(
-      "Give me name of all brands sorted in ascending order of price"
+      "Give all details of employees in IT by salary"
     );
     console.table(response.table);
     console.log(response.summary);

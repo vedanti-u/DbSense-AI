@@ -3,10 +3,8 @@ import { OpenAIEmbeddings } from "@langchain/openai";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import { OpenAI } from "@langchain/openai";
 import { HNSWLib } from "@langchain/community/vectorstores/hnswlib";
-import dotenv from "dotenv";
 import { RetrievalQAChain } from "langchain/chains";
-
-dotenv.config();
+import "dotenv/config";
 
 export class PromptService {
   private vectorStore: HNSWLib | undefined;
@@ -20,7 +18,8 @@ export class PromptService {
     this.openAIEmbeddings = new OpenAIEmbeddings();
     this.model = new OpenAI({});
     this.vectorStorePath = "./docs/data.index";
-    this.rawData = fs.readFileSync("prompts.json", "utf8");
+    // console.log(`Current directory: ${process.cwd()}`);
+    this.rawData = fs.readFileSync("./dist/prompts.json", "utf8");
     // console.log("rawData", this.rawData);
     this.jsonData = JSON.parse(this.rawData);
     // console.log("jsonData", this.jsonData);
@@ -33,7 +32,7 @@ export class PromptService {
     );
 
     if (fileExists) {
-      console.log("Loading Vector Store");
+      //console.log("Loading Vector Store");
       this.vectorStore = await HNSWLib.load(
         this.vectorStorePath,
         this.openAIEmbeddings

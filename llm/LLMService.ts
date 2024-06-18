@@ -3,8 +3,8 @@ import { OpenAIEmbeddings } from "@langchain/openai";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import { OpenAI } from "@langchain/openai";
 import { HNSWLib } from "@langchain/community/vectorstores/hnswlib";
-import dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
+import { env } from "process";
 
 export class LLMService {
   public tables: { [key: string]: string };
@@ -21,15 +21,16 @@ export class LLMService {
   }
 
   public async createTable(sqlQueryForTable: string) {
+    //console.log("key ye hai ", env.OPENAI_API_KEY);
     sqlQueryForTable.replace(/\n|\+/g, "");
     const tableName = this.extractTableNameFromCreateQuery(sqlQueryForTable);
     if (tableName) {
-      // console.log("Table name: ", tableName);
+      //console.log("Table name: ", tableName);
       this.tables[tableName] = sqlQueryForTable;
     } else {
-      // console.log("Table name not found");
+      //console.log("Table name not found");
     }
-    // console.log(this.tables);
+    //console.log(this.tables);
     await this.deleteFile(this.vectorStorePath);
     await this.createVectorEmbeddings(
       this.tableObjToStringConvertor(this.tables)
@@ -92,14 +93,14 @@ export class LLMService {
     );
 
     if (fileExists) {
-      // console.log("Vector Store Already Exist");
+      //console.log("Vector Store Already Exist");
       this.vectorStore = await HNSWLib.load(
         this.vectorStorePath,
         this.openAIEmbeddings
       );
-      // console.log("this is vectorStore", this.vectorStore);
+      //console.log("this is vectorStore", this.vectorStore);
     } else {
-      console.log("Creating Vector Store");
+      //console.log("Creating Vector Store");
 
       const textSpiltter = new RecursiveCharacterTextSplitter({
         chunkSize: 1000,
@@ -110,10 +111,9 @@ export class LLMService {
         this.openAIEmbeddings
       );
       await this.vectorStore.save(this.vectorStorePath);
-      console.log("Succesfully create vector store ");
+      //console.log("Succesfully create vector store ");
     }
   }
-  
 
   async checkFileExists(filePath: string): Promise<boolean> {
     try {
@@ -128,7 +128,7 @@ export class LLMService {
       fs.rmSync(filePath, { recursive: true });
       //console.log("File deleted successfully.");
     } catch (error) {
-     // console.error("Error deleting file:", error);
+      //console.error("Error deleting file:", error);
     }
   }
 }

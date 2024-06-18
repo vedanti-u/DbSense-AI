@@ -5,10 +5,8 @@ import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import { OpenAI } from "langchain/llms/openai";
 import { HNSWLib } from "langchain/vectorstores/hnswlib";
 import { RetrievalQAChain } from "langchain/chains";
-import dotenv from "dotenv";
 import { Client, QueryResult } from "pg";
-
-dotenv.config();
+import "dotenv/config";
 
 const tables: { [key: string]: string } = {};
 
@@ -86,11 +84,11 @@ async function checkFileExists(filePath: string): Promise<boolean> {
 
 async function createSqlQueryFromQuestion(question: string) {
   //prompt
-  console.log("createSqlQueryFromQuestion");
+  //console.log("createSqlQueryFromQuestion");
   const fileExists: boolean = await checkFileExists(VECTOR_STORE_PATH);
 
   if (fileExists) {
-    console.log("Loading Vector Store");
+    //console.log("Loading Vector Store");
     vectorStore = await HNSWLib.load(VECTOR_STORE_PATH, openAIEmbeddings);
     const chain = RetrievalQAChain.fromLLM(model, vectorStore.asRetriever());
     const prompt = `
@@ -127,7 +125,7 @@ async function generateResponseFromDB(query: string) {
     host: process.env.DB_HOST,
     database: process.env.DB_DATABASE,
     password: process.env.DB_PASSWORD,
-    port: 5432,
+    port: Number(process.env.DB_PORT),
   });
 
   try {
@@ -155,7 +153,7 @@ async function generateResponseFromDB(query: string) {
 }
 
 async function summarizeQuestionwithResponse(question: string, answer: string) {
-  console.log("Loading Vector Store for summarizer");
+  //console.log("Loading Vector Store for summarizer");
   vectorStore = await HNSWLib.load(VECTOR_STORE_PATH, openAIEmbeddings);
   const chain = RetrievalQAChain.fromLLM(model, vectorStore.asRetriever());
   const prompt = `

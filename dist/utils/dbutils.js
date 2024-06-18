@@ -31,9 +31,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs = __importStar(require("fs/promises"));
 const openai_1 = require("langchain/embeddings/openai");
@@ -41,9 +38,8 @@ const text_splitter_1 = require("langchain/text_splitter");
 const openai_2 = require("langchain/llms/openai");
 const hnswlib_1 = require("langchain/vectorstores/hnswlib");
 const chains_1 = require("langchain/chains");
-const dotenv_1 = __importDefault(require("dotenv"));
 const pg_1 = require("pg");
-dotenv_1.default.config();
+require("dotenv/config");
 const tables = {};
 let vectorStore;
 const model = new openai_2.OpenAI({});
@@ -159,7 +155,7 @@ function generateResponseFromDB(query) {
             host: process.env.DB_HOST,
             database: process.env.DB_DATABASE,
             password: process.env.DB_PASSWORD,
-            port: 5432,
+            port: Number(process.env.DB_PORT),
         });
         try {
             yield client.connect();
