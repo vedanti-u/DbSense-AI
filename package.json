@@ -1,6 +1,6 @@
 {
   "name": "dbsense-ai",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "A quick and lightweight library to chat with databases.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
