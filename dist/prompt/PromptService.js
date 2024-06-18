@@ -44,8 +44,8 @@ class PromptService {
         this.openAIEmbeddings = new openai_1.OpenAIEmbeddings();
         this.model = new openai_2.OpenAI({});
         this.vectorStorePath = "./docs/data.index";
-        console.log(`Current directory: ${process.cwd()}`);
-        this.rawData = fs.readFileSync("./dist/prompts.json", "utf8");
+        // console.log(`Current directory: ${process.cwd()}`);
+        this.rawData = fs.readFileSync("prompts.json", "utf8");
         // console.log("rawData", this.rawData);
         this.jsonData = JSON.parse(this.rawData);
         // console.log("jsonData", this.jsonData);
@@ -55,7 +55,7 @@ class PromptService {
             // console.log("createSqlQueryFromQuestion");
             const fileExists = yield this.checkFileExists(this.vectorStorePath);
             if (fileExists) {
-                console.log("Loading Vector Store");
+                //console.log("Loading Vector Store");
                 this.vectorStore = yield hnswlib_1.HNSWLib.load(this.vectorStorePath, this.openAIEmbeddings);
                 const chain = chains_1.RetrievalQAChain.fromLLM(this.model, this.vectorStore.asRetriever());
                 const prompt = this.parseMessage(this.jsonData.prompt_sql, question);

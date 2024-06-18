@@ -115,10 +115,10 @@ function checkFileExists(filePath) {
 function createSqlQueryFromQuestion(question) {
     return __awaiter(this, void 0, void 0, function* () {
         //prompt
-        console.log("createSqlQueryFromQuestion");
+        //console.log("createSqlQueryFromQuestion");
         const fileExists = yield checkFileExists(VECTOR_STORE_PATH);
         if (fileExists) {
-            console.log("Loading Vector Store");
+            //console.log("Loading Vector Store");
             vectorStore = yield hnswlib_1.HNSWLib.load(VECTOR_STORE_PATH, openAIEmbeddings);
             const chain = chains_1.RetrievalQAChain.fromLLM(model, vectorStore.asRetriever());
             const prompt = `
@@ -180,7 +180,7 @@ function generateResponseFromDB(query) {
 }
 function summarizeQuestionwithResponse(question, answer) {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log("Loading Vector Store for summarizer");
+        //console.log("Loading Vector Store for summarizer");
         vectorStore = yield hnswlib_1.HNSWLib.load(VECTOR_STORE_PATH, openAIEmbeddings);
         const chain = chains_1.RetrievalQAChain.fromLLM(model, vectorStore.asRetriever());
         const prompt = `
