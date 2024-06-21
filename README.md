@@ -1,5 +1,5 @@
 <div align="center">
-<a href="https://refine.dev/">
+<a href="https://www.npmjs.com/package/dbsense-ai">
     <img alt="dbsense ai logo" src="https://github.com/vedanti-u/readme-assets/blob/main/dbsense-ai-logo.jpeg">
 </a>
 </div>
