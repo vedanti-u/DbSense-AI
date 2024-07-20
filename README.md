@@ -21,6 +21,10 @@
 
 </div align="left" >
 
+
+https://github.com/user-attachments/assets/93a91425-4d8c-4b82-b730-b1f51fe0f253
+
+
 ## What is DbSenseAi
 
 **DbSenseAI** is a fast and lightweight library that simplifies chatting with your database. Unlike traditional methods, it doesn't need to embed all your database data. Instead, it focuses only on the schema, making it efficient and quick.
