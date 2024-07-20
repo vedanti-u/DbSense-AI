@@ -22,7 +22,11 @@
 </div align="left" >
 
 
-https://github.com/user-attachments/assets/93a91425-4d8c-4b82-b730-b1f51fe0f253
+
+
+https://github.com/user-attachments/assets/66115d65-1015-4875-a8a3-131095df8a80
+
+
 
 
 ## What is DbSenseAi
