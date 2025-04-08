@@ -27,6 +27,10 @@
 https://github.com/user-attachments/assets/66115d65-1015-4875-a8a3-131095df8a80
 
 
+### 📦 NPM Downloads
+
+> **[`dbsense-ai`](https://www.npmjs.com/package/dbsense-ai)** has crossed **1,000+ downloads** on NPM! 🎉  
+> Thank you to the amazing developer community for the love and support! 🙌  
 
 
 ## What is DbSenseAi
